@@ -14,13 +14,10 @@ public class CommandHandler {
     // Might be better practise to do this from an instantiated objects constructor
     static {
 
-        commandMap.put("testcommand", (event, args) -> {
-            BotUtils.sendMessage(event.getChannel(), "You ran the test command with args: " + args);
-        });
+        commandMap.put("testcommand", (event, args) ->
+            BotUtils.sendMessage(event.getChannel(), "You ran the test command with args: " + args));
 
-        commandMap.put("ping", (event, args) -> {
-            BotUtils.sendMessage(event.getChannel(), "pong");
-        });
+        commandMap.put("ping", (event, args) -> BotUtils.sendMessage(event.getChannel(), "pong"));
 
     }
 
