@@ -8,6 +8,6 @@ public class CommandHandlerTest {
 
     @Test
     public void tempOne() {
-        assertTrue(true);
+        assertTrue(false);
     }
 }
