@@ -1,15 +1,18 @@
 language: java
-
 jdk:
-  - openjdk8
-
+- openjdk8
 sudo: false
-
 script: mvn clean verify
-
 notifications:
   slack:
     on_failure: always
     on_success: change
   email:
-    - mannyocrity@gmail.com
+  - mannyocrity@gmail.com
+deploy:
+  provider: heroku
+  api_key:
+    secure: FgbWCL+BxZzEJ36KOFl/Ku88WLKuSK8s5cGrulyoCUaeOfQk6d35BT278GXwg0DqZCFqQyqkKuid0N7nW7UFjAM99bL1EZdE/gtwWinjj9gtpJG8guWNHdPWUfPRST3eCEephum9xxsNWVTnlDofUwWT6tKNBwQq6372xfNpLMuBsEUUUjREhUVbMWjqwncOLPyZVZzJ6n5lK0v0ruHlNr8H9viuX2KpGbVrb2LlWSqsMoL3IRImhn0vbukhg1woOrSL/FaiAjDFluc5XvRtko4bKtbMtx32yCESk6hL53mgZu0FMTFijXX3sAvXYwgjif1zwHq/v1aFCWM2SEhA/6TJ/dFLwvYtLXjZpfzTiAP4a/R4ZK+vLEvIjo3kofivTrhL77exgI4ICvW78eSz/L/lpTYhZo7a2lE42y8pv6hedKNgw8uluD0QBxa2lgdFonvat/mj5iBS2gRjiYyOJCRBa/NyH3nn5xkDBtUV8EXVdxNOigUSWS5YW78ZQB2cYEwnbKuHh6FTj8I6d1iUzxyRSFjO7rJ5BkVhAh0t00B/Oj9DsFtPEOWovLAboWOgEvf3LzAqSnI+caPAPmIxpgXBLViGryE7ri2stPA/rZeoik0KiU4UqCSHZcbkuPWi0FkGzsWCRodwRZnxkE5dzjSyA+6oxZyuzrZsABNlX3I=
+      app: mannyocrity-discord-bot
+  on:
+    repo: mannyocrity/discord-bot
