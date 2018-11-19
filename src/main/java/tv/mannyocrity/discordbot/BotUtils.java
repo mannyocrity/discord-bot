@@ -32,8 +32,7 @@ public class BotUtils {
             try{
                 channel.sendMessage(message);
             } catch (DiscordException e){
-                log.error("Message could not be sent with error: ");
-                e.printStackTrace();
+                log.error("Message could not be sent with error: ", e);
             }
         });
     }

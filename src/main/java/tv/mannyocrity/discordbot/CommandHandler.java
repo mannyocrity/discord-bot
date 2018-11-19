@@ -6,11 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tv.mannyocrity.discordbot.command.Ping;
 import tv.mannyocrity.discordbot.command.TestCommand;
 
+@Slf4j
 public class CommandHandler {
 
     // A static map of commands mapping from command string to the functional impl
@@ -48,15 +50,12 @@ public class CommandHandler {
         List<String> argsList = new ArrayList<>(Arrays.asList(argArray));
         argsList.remove(0); // Remove the command
 
-        // Instead of delegating the work to a switch, automatically do it via calling the mapping if it exists
-
-        Class<?> clazz;
         try {
-            clazz = commandMap.get(commandStr);
+            Class<?> clazz = commandMap.get(commandStr);
             Command cmd = (Command) clazz.newInstance();
             cmd.runCommand(event, argsList);
         } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            log.error("Failed to execute command {}", commandStr, e);
         }
 
     }
