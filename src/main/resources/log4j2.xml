@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="ERROR">
+    <Properties>
+        <Property name="log-path">output/logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>%d{HH:mm:ss,SSS} %highlight{[%p]} (%t) %c{4}: %m%n%rException{filters(
+                    org.activiti.engine.impl
+                    )}</pattern>
+            </PatternLayout>
+        </Console>
+
+        <RollingFile name="APPLICATION" fileName="${log-path}/discord-bot.log" filePattern="${log-path}/discord-bot.log.%d{yyyy-MM-dd}.gz">
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+
+            <DefaultRolloverStrategy max="1"/>
+
+            <PatternLayout>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss,SSS} [%p] (%t) %c{4}: %m%n%rException{filters(
+                    org.activiti.engine.impl
+                    )}</pattern>
+            </PatternLayout>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="WARN">
+            <AppenderRef ref="CONSOLE"/>
+            <AppenderRef ref="APPLICATION"/>
+        </Root>
+        <Logger name="com" level="WARN"/>
+        <Logger name="org" level="WARN"/>
+        <Logger name="tv.mannyocrity.discordbot" level="DEBUG"/>
+    </Loggers>
+</Configuration>

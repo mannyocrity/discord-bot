@@ -1,13 +1,15 @@
 package tv.mannyocrity.discordbot;
 
+import lombok.extern.slf4j.Slf4j;
 import sx.blah.discord.api.IDiscordClient;
 
+@Slf4j
 public class MainRunner {
 
     public static void main(String[] args){
 
         if(args.length != 1){
-            System.out.println("Please enter the bots token as the first argument e.g java -jar thisjar.jar tokenhere");
+            log.error("Please enter the bots token as the first argument e.g java -jar thisjar.jar tokenhere");
             return;
         }
 

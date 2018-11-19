@@ -1,11 +1,13 @@
 package tv.mannyocrity.discordbot;
 
+import lombok.extern.slf4j.Slf4j;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
+@Slf4j
 public class BotUtils {
 
     // Constants for use throughout the bot
@@ -30,7 +32,7 @@ public class BotUtils {
             try{
                 channel.sendMessage(message);
             } catch (DiscordException e){
-                System.err.println("Message could not be sent with error: ");
+                log.error("Message could not be sent with error: ");
                 e.printStackTrace();
             }
         });
