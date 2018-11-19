@@ -50,12 +50,14 @@ public class CommandHandler {
         List<String> argsList = new ArrayList<>(Arrays.asList(argArray));
         argsList.remove(0); // Remove the command
 
-        try {
-            Class<?> clazz = commandMap.get(commandStr);
-            Command cmd = (Command) clazz.newInstance();
-            cmd.runCommand(event, argsList);
-        } catch (InstantiationException | IllegalAccessException e) {
-            log.error("Failed to execute command {}", commandStr, e);
+        if(commandMap.containsKey(commandStr)) {
+            try {
+                Class<?> clazz = commandMap.get(commandStr);
+                Command cmd = (Command) clazz.newInstance();
+                cmd.runCommand(event, argsList);
+            } catch (InstantiationException | IllegalAccessException e) {
+                log.error("Failed to execute command {}", commandStr, e);
+            }
         }
 
     }
