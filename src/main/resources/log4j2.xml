@@ -33,8 +33,6 @@
             <AppenderRef ref="CONSOLE"/>
             <AppenderRef ref="APPLICATION"/>
         </Root>
-        <Logger name="com" level="WARN"/>
-        <Logger name="org" level="WARN"/>
         <Logger name="tv.mannyocrity.discordbot" level="DEBUG"/>
     </Loggers>
 </Configuration>
