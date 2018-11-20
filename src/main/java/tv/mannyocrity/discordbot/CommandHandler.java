@@ -12,10 +12,13 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tv.mannyocrity.discordbot.command.Ping;
 import tv.mannyocrity.discordbot.command.TestCommand;
 
+/**
+ *
+ */
 @Slf4j
 public class CommandHandler {
 
-    // A static map of commands mapping from command string to the functional impl
+    /** A static map of commands mapping from command string to the functional impl. */
     private static Map<String, Class> commandMap = new HashMap<>();
 
     // Statically populate the commandMap with the known commands.
@@ -24,8 +27,11 @@ public class CommandHandler {
         commandMap.put("ping", Ping.class);
     }
 
+    /**
+     * @param event - message received from discord.
+     */
     @EventSubscriber
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public final void onMessageReceived(final MessageReceivedEvent event) {
 
         // Note for error handling, you'll probably want to log failed commands with a logger or sout
         // In most cases it's not advised to annoy the user with a reply in case they didn't intend to trigger a
@@ -36,21 +42,24 @@ public class CommandHandler {
         String[] argArray = event.getMessage().getContent().split(" ");
 
         // First ensure at least the command and prefix is present, the arg length can be handled by your command func
-        if (argArray.length == 0)
+        if (argArray.length == 0) {
             return;
+        }
 
         // Check if the first arg (the command) starts with the prefix defined in the utils class
-        if (!argArray[0].startsWith(BotUtils.BOT_PREFIX))
+        if (!argArray[0].startsWith(BotUtils.BOT_PREFIX)) {
             return;
+        }
 
-        // Extract the "command" part of the first arg out by just ditching the first character
-        String commandStr = argArray[0].substring(1);
+        // Extract the "command" part of the first arg out by just ditching the first character and making everything
+        // lower case
+        String commandStr = argArray[0].substring(1).toLowerCase();
 
         // Load the rest of the args in the array into a List for safer access
         List<String> argsList = new ArrayList<>(Arrays.asList(argArray));
         argsList.remove(0); // Remove the command
 
-        if(commandMap.containsKey(commandStr)) {
+        if (commandMap.containsKey(commandStr)) {
             try {
                 Class<?> clazz = commandMap.get(commandStr);
                 Command cmd = (Command) clazz.newInstance();

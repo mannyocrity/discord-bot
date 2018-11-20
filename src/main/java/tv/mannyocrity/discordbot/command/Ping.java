@@ -7,11 +7,14 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tv.mannyocrity.discordbot.BotUtils;
 import tv.mannyocrity.discordbot.Command;
 
+/**
+ * Ping command.
+ */
 @Slf4j
 public class Ping implements Command {
 
     @Override
-    public void runCommand(MessageReceivedEvent event, List<String> args) {
+    public final void runCommand(final MessageReceivedEvent event, final List<String> args) {
         log.info("Executing ping command.");
         BotUtils.sendMessage(event.getChannel(), "Pong");
     }

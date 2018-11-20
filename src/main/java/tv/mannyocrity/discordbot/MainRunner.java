@@ -3,12 +3,24 @@ package tv.mannyocrity.discordbot;
 import lombok.extern.slf4j.Slf4j;
 import sx.blah.discord.api.IDiscordClient;
 
+/**
+ * Bot main point of entry.
+ */
 @Slf4j
-public class MainRunner {
+public final class MainRunner {
 
-    public static void main(String[] args){
+    /** Utility classes should not have a public constructor. */
+    private MainRunner() {
+    }
 
-        if(args.length != 1){
+    /**
+     * Main execution.
+     *
+     * @param args - passed in arguments.
+     */
+    public static void main(final String[] args) {
+
+        if (args.length != 1) {
             log.error("Please enter the bots token as the first argument e.g java -jar thisjar.jar tokenhere");
             return;
         }

@@ -7,11 +7,14 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 import tv.mannyocrity.discordbot.BotUtils;
 import tv.mannyocrity.discordbot.Command;
 
+/**
+ * TestCommand command.
+ */
 @Slf4j
 public class TestCommand implements Command {
 
     @Override
-    public void runCommand(MessageReceivedEvent event, List<String> args) {
+    public final void runCommand(final MessageReceivedEvent event, final List<String> args) {
         log.info("Executing testcommand command with args: {}", args);
         BotUtils.sendMessage(event.getChannel(), "You ran the test command with args: " + args);
     }
