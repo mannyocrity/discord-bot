@@ -9,6 +9,7 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import tv.mannyocrity.discordbot.command.Command;
 import tv.mannyocrity.discordbot.command.Ping;
 import tv.mannyocrity.discordbot.command.TestCommand;
 

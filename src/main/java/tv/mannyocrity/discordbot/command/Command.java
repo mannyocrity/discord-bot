@@ -1,4 +1,4 @@
-package tv.mannyocrity.discordbot;
+package tv.mannyocrity.discordbot.command;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 

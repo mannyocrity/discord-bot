@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tv.mannyocrity.discordbot.BotUtils;
-import tv.mannyocrity.discordbot.Command;
 
 /**
  * Ping command.
