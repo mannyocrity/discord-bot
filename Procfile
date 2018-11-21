@@ -1,1 +1,1 @@
-worker: sh target/bin/worker $DISCORD_TOKEN
+worker: sh target/bin/worker

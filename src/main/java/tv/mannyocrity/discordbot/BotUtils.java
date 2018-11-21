@@ -13,8 +13,10 @@ import sx.blah.discord.util.RequestBuffer;
 @Slf4j
 public final class BotUtils {
 
-    /** Constants for use throughout the bot. */
+    /** Prefix used for all commands that will be processed by this Bot. */
     static final String BOT_PREFIX = "/";
+    /** Environment variable token used to find the discord token. */
+    static final String DISCORD_TOKEN_ENV_VAR = "DISCORD_TOKEN";
 
     /**
      * Handles the creation and getting of a IDiscordClient object for a token.

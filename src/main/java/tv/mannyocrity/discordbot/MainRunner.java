@@ -20,12 +20,15 @@ public final class MainRunner {
      */
     public static void main(final String[] args) {
 
-        if (args.length != 1) {
-            log.error("Please enter the bots token as the first argument e.g java -jar thisjar.jar tokenhere");
+        // Make sure the discord token environment variable is set.
+        String discordToken = System.getenv(BotUtils.DISCORD_TOKEN_ENV_VAR);
+        if (discordToken == null) {
+            log.error("Environment variable {} must be set to the correct Discord Bot Token.",
+                    BotUtils.DISCORD_TOKEN_ENV_VAR);
             return;
         }
 
-        IDiscordClient cli = BotUtils.getBuiltDiscordClient(args[0]);
+        IDiscordClient cli = BotUtils.getBuiltDiscordClient(discordToken);
 
         // Register a listener via the EventSubscriber annotation which allows for organisation and delegation of events
         cli.getDispatcher().registerListener(new CommandHandler());
