@@ -11,7 +11,7 @@ import java.util.List;
 @Slf4j
 public class Schedule  implements Command {
     @Override
-    public void runCommand(MessageReceivedEvent event, List<String> args) {
+    public void runCommand(final MessageReceivedEvent event, final List<String> args) {
 
     }
 }
