@@ -5,6 +5,9 @@ import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedE
 
 import java.util.List;
 
+/**
+ * Schedule command.
+ */
 @Slf4j
 public class Schedule  implements Command {
     @Override
