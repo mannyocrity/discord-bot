@@ -2,7 +2,7 @@ language: java
 jdk:
 - openjdk8
 sudo: false
-script: mvn clean verify
+script: mvn clean site verify
 notifications:
   slack:
     on_failure: always
