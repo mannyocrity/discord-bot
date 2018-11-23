@@ -11,7 +11,7 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tv.mannyocrity.discordbot.command.Command;
 import tv.mannyocrity.discordbot.command.Ping;
-import tv.mannyocrity.discordbot.command.Schedule;
+import tv.mannyocrity.discordbot.command.ScheduleCommand;
 import tv.mannyocrity.discordbot.command.TestCommand;
 
 /**
@@ -26,7 +26,7 @@ public class CommandHandler {
     // Statically populate the commandMap with the known commands.
     static {
         commandMap.put("ping", Ping.class);
-        commandMap.put("schedule", Schedule.class);
+        commandMap.put("schedule", ScheduleCommand.class);
         commandMap.put("testcommand", TestCommand.class);
     }
 
