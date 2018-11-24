@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import org.junit.Rule;
 import org.junit.Test;
 import tv.mannyocrity.discordbot.rules.LogVerify;
+import tv.mannyocrity.discordbot.utils.TimeConversion;
 
 import java.text.ParseException;
 
@@ -15,19 +16,15 @@ import static org.junit.Assert.fail;
 @Slf4j
 public class TimeSlotTest {
 
-    @Rule
-    public LogVerify logVerify = new LogVerify() {{
-        recordLoggingForType(TimeSlot.class);
-    }};
-
     @Test
     public void setStartTime() throws ParseException {
         // SETUP
         TimeSlot toTest = new TimeSlot();
-        String expectedTime = "10:30 PM";
+        String startTime = "09:15 PM";
+        String expectedTime = "05:15 AM";
 
         // EXECUTE
-        toTest.setStartTime(expectedTime);
+        toTest.setStartTime(startTime, "PST");
 
         // VERIFY
         assertEquals(expectedTime, toTest.getStartTime());
@@ -36,17 +33,17 @@ public class TimeSlotTest {
     @Test
     public void setStartTimeParseException() {
         // SETUP
-        TimeSlot toTest = new TimeSlot();
         String expectedTime = "10:30 CM";
+
+        String result = null;
 
         try {
             // EXECUTE
-            toTest.setStartTime(expectedTime);
+            result = TimeConversion.convertToUTC(expectedTime, "PST");
             fail("ParseException is never thrown.");
         } catch (ParseException e) {
             // VERIFY
-            assertNull(toTest.getStartTime());
-            logVerify.verifyLogMessages("Incorrect format 10:30 CM needs to be in format '10:30 PM'.", Level.ERROR);
+            assertNull(result);
         }
     }
 }
