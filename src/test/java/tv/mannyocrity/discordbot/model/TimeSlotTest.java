@@ -6,6 +6,7 @@ import org.junit.Test;
 import tv.mannyocrity.discordbot.utils.TimeConversion;
 
 import java.text.ParseException;
+import java.time.format.DateTimeParseException;
 
 import static org.junit.Assert.*;
 
@@ -28,7 +29,7 @@ public class TimeSlotTest {
     }
 
     @Test
-    public void setStartTimeParseException() {
+    public void setStartTimeParseException() throws ParseException {
         // SETUP
         String timezone = "PST";
         String expectedTime = "10:30 CM";
@@ -38,8 +39,8 @@ public class TimeSlotTest {
         try {
             // EXECUTE
             result = TimeConversion.convertToUTC(expectedTime, timezone);
-            fail("ParseException is never thrown.");
-        } catch (ParseException e) {
+            fail("DateTimeParseException is never thrown.");
+        } catch (DateTimeParseException e) {
             // VERIFY
             assertNull(result);
         }
@@ -61,7 +62,7 @@ public class TimeSlotTest {
     }
 
     @Test
-    public void setEndTimeParseException() {
+    public void setEndTimeParseException() throws ParseException {
         // SETUP
         String timezone = "PST";
         String expectedTime = "12:30 EST";
@@ -71,8 +72,8 @@ public class TimeSlotTest {
         try {
             // EXECUTE
             result = TimeConversion.convertToUTC(expectedTime, timezone);
-            fail("ParseException is never thrown.");
-        } catch (ParseException e) {
+            fail("DateTimeParseException is never thrown.");
+        } catch (DateTimeParseException e) {
             // VERIFY
             assertNull(result);
         }
