@@ -35,6 +35,27 @@ public final class TimeConversion {
     }
 
     /**
+     * Converts a time from UTC to a specified timezone.
+     *
+     * @param time - time to convert in 10:30 PM format.
+     * @param zone - Timezone to convert to.
+     * @return - String of time converted from UTC.
+     * @throws ParseException - Throws if there is an issue with the conversion.
+     */
+    public static String convertFromUTC(final String time, final String zone) throws ParseException {
+        DateFormat zoneFormat = new SimpleDateFormat(TIME_PATTERN, Locale.ROOT);
+        zoneFormat.setTimeZone(TimeZone.getTimeZone(zone));
+
+        try {
+            return zoneFormat.format(utcFormat.parse(time));
+        } catch (ParseException e) {
+            String errMsg = "Incorrect format '" + time + "' needs to be in format '10:30 PM'.";
+            log.error(errMsg, time);
+            throw new ParseException(errMsg, e.getErrorOffset());
+        }
+    }
+
+    /**
      * Converts a time from a specified timezone to UTC.
      *
      * @param time - time to convert in 10:30 PM format.
@@ -49,7 +70,7 @@ public final class TimeConversion {
         try {
             return utcFormat.format(zoneFormat.parse(time));
         } catch (ParseException e) {
-            String errMsg = "Incorrect format " + time + " needs to be in format '10:30 PM'.";
+            String errMsg = "Incorrect format '" + time + "' needs to be in format '10:30 PM'.";
             log.error(errMsg, time);
             throw new ParseException(errMsg, e.getErrorOffset());
         }
