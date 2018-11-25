@@ -1,15 +1,13 @@
 package tv.mannyocrity.discordbot.utils;
 
 import org.apache.logging.log4j.Level;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.rules.LogVerify;
 
-import java.text.ParseException;
-import java.time.format.DateTimeParseException;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class TimeConversionTest {
     @Rule
@@ -18,7 +16,7 @@ public class TimeConversionTest {
     }};
 
     @Test
-    public void convertFromUTC() throws ParseException {
+    public void convertFromUTC() throws TimeConversionException {
         // SETUP
         String timezone = "PST";
         String startTime = "06:30 AM";
@@ -32,28 +30,7 @@ public class TimeConversionTest {
     }
 
     @Test
-    @Ignore
-    public void convertFromUTCParseException() throws ParseException {
-        // SETUP
-        String timezone = "PST";
-        String startTime = "10 30 AM";
-
-        String result = null;
-
-        try {
-            // EXECUTE
-            result = TimeConversion.convertToUTC(startTime, timezone);
-            fail("DateTimeParseException is never thrown.");
-        } catch (DateTimeParseException e) {
-            // VERIFY
-            assertNull(result);
-            logVerify.verifyLogMessages("Incorrect format '" + startTime + "' needs to be in format '10:30 PM'.",
-                    Level.ERROR);
-        }
-    }
-
-    @Test
-    public void convertToUTC() throws ParseException {
+    public void convertToUTC() throws TimeConversionException {
         // SETUP
         String timezone = "CST";
         String startTime = "10:30 PM";
@@ -67,71 +44,74 @@ public class TimeConversionTest {
     }
 
     @Test
-    @Ignore
-    public void convertToUTCParseException() throws ParseException {
-        // SETUP
-        String timezone = "PST";
-        String startTime = "10:30 CM";
-
-        String result = null;
-
-        try {
-            // EXECUTE
-            result = TimeConversion.convertToUTC(startTime, timezone);
-            fail("DateTimeParseException is never thrown.");
-        } catch (DateTimeParseException e) {
-            // VERIFY
-            assertNull(result);
-            logVerify.verifyLogMessages("Incorrect format '" + startTime + "' needs to be in format '10:30 PM'.",
-                    Level.ERROR);
-        }
-    }
-
-    @Test
-    public void validateTime() {
+    public void validateTime() throws TimeConversionException {
         // SETUP
         String time = "10:30 PM";
 
         // EXECUTE
         TimeConversion.validateTime(time);
 
-        // Verfiy
+        // VERIFY
         // No exception is thrown.
     }
 
-    @Test(expected = DateTimeParseException.class)
+    @Test
     public void validateTimeInvalidHour() {
         // SETUP
         String time = "15:30 PM";
 
-        // EXECUTE
-        TimeConversion.validateTime(time);
-
-        // Verfiy
-        // DateTimeParseException expected
+        try {
+            // EXECUTE
+            TimeConversion.validateTime(time);
+            fail("DateTimeParseException is not thrown.");
+            // VERIFY
+        } catch (TimeConversionException e) {
+            logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
+        }
     }
 
-    @Test(expected = DateTimeParseException.class)
+    @Test
     public void validateTimeInvalidMinute() {
         // SETUP
         String time = "09:61 PM";
 
-        // EXECUTE
-        TimeConversion.validateTime(time);
-
-        // Verfiy
-        // DateTimeParseException expected
+        try {
+            // EXECUTE
+            TimeConversion.validateTime(time);
+            fail("DateTimeParseException is not thrown.");
+            // VERIFY
+        } catch (TimeConversionException e) {
+            logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
+        }
     }
 
-    @Test(expected = DateTimeParseException.class)
+    @Test
     public void validateTimeInvalidMeridies () {
         // SETUP
         String time = "09:15 CM";
 
-        // EXECUTE
-        TimeConversion.validateTime(time);
+        try {
+            // EXECUTE
+            TimeConversion.validateTime(time);
+            fail("DateTimeParseException is not thrown.");
+            // VERIFY
+        } catch (TimeConversionException e) {
+            logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
+        }
+    }
 
-        // Verfiy
-        // DateTimeParseException expected
+    @Test
+    public void validateTimeInvalidFormat () {
+        // SETUP
+        String time = "09 15 AM";
+
+        try {
+            // EXECUTE
+            TimeConversion.validateTime(time);
+            fail("DateTimeParseException is not thrown.");
+            // VERIFY
+        } catch (TimeConversionException e) {
+            logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
+        }
     }
 }

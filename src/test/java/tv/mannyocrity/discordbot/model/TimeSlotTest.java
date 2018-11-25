@@ -1,20 +1,16 @@
 package tv.mannyocrity.discordbot.model;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Ignore;
 import org.junit.Test;
-import tv.mannyocrity.discordbot.utils.TimeConversion;
+import tv.mannyocrity.discordbot.exception.TimeConversionException;
 
-import java.text.ParseException;
-import java.time.format.DateTimeParseException;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @Slf4j
 public class TimeSlotTest {
 
     @Test
-    public void setStartTime() throws ParseException {
+    public void setStartTime() throws TimeConversionException {
         // SETUP
         String timezone = "PST";
         TimeSlot toTest = new TimeSlot();
@@ -29,25 +25,7 @@ public class TimeSlotTest {
     }
 
     @Test
-    public void setStartTimeParseException() throws ParseException {
-        // SETUP
-        String timezone = "PST";
-        String expectedTime = "10:30 CM";
-
-        String result = null;
-
-        try {
-            // EXECUTE
-            result = TimeConversion.convertToUTC(expectedTime, timezone);
-            fail("DateTimeParseException is never thrown.");
-        } catch (DateTimeParseException e) {
-            // VERIFY
-            assertNull(result);
-        }
-    }
-
-    @Test
-    public void setEndTime() throws ParseException {
+    public void setEndTime() throws TimeConversionException {
         // SETUP
         String timezone = "MST";
         TimeSlot toTest = new TimeSlot();
@@ -59,23 +37,5 @@ public class TimeSlotTest {
 
         // VERIFY
         assertEquals(expectedTime, toTest.getStartTime());
-    }
-
-    @Test
-    public void setEndTimeParseException() throws ParseException {
-        // SETUP
-        String timezone = "PST";
-        String expectedTime = "12:30 EST";
-
-        String result = null;
-
-        try {
-            // EXECUTE
-            result = TimeConversion.convertToUTC(expectedTime, timezone);
-            fail("DateTimeParseException is never thrown.");
-        } catch (DateTimeParseException e) {
-            // VERIFY
-            assertNull(result);
-        }
     }
 }

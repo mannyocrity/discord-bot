@@ -2,9 +2,9 @@ package tv.mannyocrity.discordbot.model;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.utils.TimeConversion;
 
-import java.text.ParseException;
 import java.time.DayOfWeek;
 
 /**
@@ -36,9 +36,9 @@ class TimeSlot {
      *
      * @param time - Time in String format to set.
      * @param zone - The timezone the time is from.
-     * @throws ParseException - if the time cannot be parsed correctly.
+     * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
-    void setStartTime(final String time, final String zone) throws ParseException {
+    void setStartTime(final String time, final String zone) throws TimeConversionException {
         startTime = TimeConversion.convertToUTC(time, zone);
     }
 
@@ -47,9 +47,9 @@ class TimeSlot {
      *
      * @param time - Time in String format to set.
      * @param zone - The timezone the time is from.
-     * @throws ParseException - if the time cannot be parsed correctly.
+     * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
-    void setEndTime(final String time, final String zone) throws ParseException {
+    void setEndTime(final String time, final String zone) throws TimeConversionException {
         endTime = TimeConversion.convertToUTC(time, zone);
     }
 }

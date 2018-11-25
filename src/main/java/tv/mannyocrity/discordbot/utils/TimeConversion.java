@@ -1,12 +1,14 @@
 package tv.mannyocrity.discordbot.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import tv.mannyocrity.discordbot.exception.TimeConversionException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -42,18 +44,19 @@ public final class TimeConversion {
      * @param time - time to convert in 10:30 PM format.
      * @param zone - Timezone to convert to.
      * @return - String of time converted from UTC.
-     * @throws ParseException - Throws if there is an issue with the conversion.
+     * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
-    public static String convertFromUTC(final String time, final String zone) throws ParseException {
+    public static String convertFromUTC(final String time, final String zone) throws TimeConversionException {
+        validateTime(time);
+
         DateFormat zoneFormat = new SimpleDateFormat(TIME_PATTERN, Locale.ROOT);
         zoneFormat.setTimeZone(TimeZone.getTimeZone(zone));
 
         try {
-            return zoneFormat.format(utcFormat.parse(time));
+        return zoneFormat.format(utcFormat.parse(time));
         } catch (ParseException e) {
-            String errMsg = "Incorrect format '" + time + "' needs to be in format '10:30 PM'.";
-            log.error(errMsg, time);
-            throw new ParseException(errMsg, e.getErrorOffset());
+            log.error(e.getMessage());
+            throw new TimeConversionException(e.getMessage(), e);
         }
     }
 
@@ -63,32 +66,37 @@ public final class TimeConversion {
      * @param time - time to convert in 10:30 PM format.
      * @param zone - Timezone to convert from.
      * @return - String of time converted to UTC.
-     * @throws ParseException - Throws if there is an issue with the conversion.
+     * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
-    public static String convertToUTC(final String time, final String zone) throws ParseException {
+    public static String convertToUTC(final String time, final String zone) throws TimeConversionException {
         validateTime(time);
 
-        DateFormat zoneFormat = new SimpleDateFormat(TIME_PATTERN, Locale.ROOT);
-        zoneFormat.setTimeZone(TimeZone.getTimeZone(zone));
-
         try {
+            DateFormat zoneFormat = new SimpleDateFormat(TIME_PATTERN, Locale.ROOT);
+            zoneFormat.setTimeZone(TimeZone.getTimeZone(zone));
             return utcFormat.format(zoneFormat.parse(time));
         } catch (ParseException e) {
-            String errMsg = "Incorrect format '" + time + "' needs to be in format '10:30 PM'.";
-            log.error(errMsg, time);
-            throw new ParseException(errMsg, e.getErrorOffset());
+            log.error(e.getMessage());
+            throw new TimeConversionException(e.getMessage(), e);
         }
     }
 
     /**
      * SimpleDateFormat does not validate if a Time is a valid 12 hour time.  We'll use DateTimeFormatter
      * and LocalTime to validate the format is correct before changing the timezone.
-     *
+     * <p>
      * If the time is not valid we will let the exception propagate up.
+     *
      * @param time - The Time to validate. Should be in the format of {@value #TIME_PATTERN}
+     * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
-    static void validateTime(final String time) {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(TIME_PATTERN);
-        LocalTime.parse(time, timeFormatter);
+    static void validateTime(final String time) throws TimeConversionException {
+        try {
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(TIME_PATTERN);
+            LocalTime.parse(time, timeFormatter);
+        } catch (DateTimeParseException e) {
+            log.error(e.getMessage());
+            throw new TimeConversionException(e.getMessage(), e);
+        }
     }
 }
