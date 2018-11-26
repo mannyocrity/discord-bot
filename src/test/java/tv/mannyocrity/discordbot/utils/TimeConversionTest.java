@@ -3,13 +3,25 @@ package tv.mannyocrity.discordbot.utils;
 import org.apache.logging.log4j.Level;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.rules.LogVerify;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class TimeConversionTest {
+    @Mock
+    private DateFormat startZoneMock;
+
+    @Mock
+    private DateFormat endZoneMock;
+
     @Rule
     public LogVerify logVerify = new LogVerify() {{
         recordLoggingForType(TimeConversion.class);
@@ -47,9 +59,14 @@ public class TimeConversionTest {
     public void validateTime() throws TimeConversionException {
         // SETUP
         String time = "10:30 PM";
+        DateFormat startZone = new SimpleDateFormat(TimeConversion.TIME_PATTERN, Locale.ROOT);
+        startZone.setTimeZone(TimeZone.getTimeZone("PST"));
+
+        DateFormat utcFormat = new SimpleDateFormat(TimeConversion.TIME_PATTERN);
+        utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         // EXECUTE
-        TimeConversion.validateTime(time);
+        TimeConversion.convertTimezone(time, startZone, utcFormat);
 
         // VERIFY
         // No exception is thrown.
@@ -62,7 +79,7 @@ public class TimeConversionTest {
 
         try {
             // EXECUTE
-            TimeConversion.validateTime(time);
+            TimeConversion.convertTimezone(time, startZoneMock, endZoneMock);
             fail("DateTimeParseException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
@@ -77,7 +94,7 @@ public class TimeConversionTest {
 
         try {
             // EXECUTE
-            TimeConversion.validateTime(time);
+            TimeConversion.convertTimezone(time, startZoneMock, endZoneMock);
             fail("DateTimeParseException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
@@ -92,7 +109,7 @@ public class TimeConversionTest {
 
         try {
             // EXECUTE
-            TimeConversion.validateTime(time);
+            TimeConversion.convertTimezone(time, startZoneMock, endZoneMock);
             fail("DateTimeParseException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
@@ -107,7 +124,7 @@ public class TimeConversionTest {
 
         try {
             // EXECUTE
-            TimeConversion.validateTime(time);
+            TimeConversion.convertTimezone(time, startZoneMock, endZoneMock);
             fail("DateTimeParseException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {

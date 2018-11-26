@@ -20,7 +20,7 @@ public final class TimeConversion {
     /**
      * The time format used '10:30 PM'.
      */
-    private static final String TIME_PATTERN = "hh:mm a";
+    static final String TIME_PATTERN = "hh:mm a";
 
     /**
      * Date Formatter for converting to UTC timezone.
@@ -47,17 +47,10 @@ public final class TimeConversion {
      * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
     public static String convertFromUTC(final String time, final String zone) throws TimeConversionException {
-        validateTime(time);
-
         DateFormat zoneFormat = new SimpleDateFormat(TIME_PATTERN, Locale.ROOT);
         zoneFormat.setTimeZone(TimeZone.getTimeZone(zone));
 
-        try {
-        return zoneFormat.format(utcFormat.parse(time));
-        } catch (ParseException e) {
-            log.error(e.getMessage());
-            throw new TimeConversionException(e.getMessage(), e);
-        }
+        return convertTimezone(time, utcFormat, zoneFormat);
     }
 
     /**
@@ -69,32 +62,32 @@ public final class TimeConversion {
      * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
     public static String convertToUTC(final String time, final String zone) throws TimeConversionException {
-        validateTime(time);
+        DateFormat zoneFormat = new SimpleDateFormat(TIME_PATTERN, Locale.ROOT);
+        zoneFormat.setTimeZone(TimeZone.getTimeZone(zone));
 
-        try {
-            DateFormat zoneFormat = new SimpleDateFormat(TIME_PATTERN, Locale.ROOT);
-            zoneFormat.setTimeZone(TimeZone.getTimeZone(zone));
-            return utcFormat.format(zoneFormat.parse(time));
-        } catch (ParseException e) {
-            log.error(e.getMessage());
-            throw new TimeConversionException(e.getMessage(), e);
-        }
+        return convertTimezone(time, zoneFormat, utcFormat);
     }
 
     /**
      * SimpleDateFormat does not validate if a Time is a valid 12 hour time.  We'll use DateTimeFormatter
      * and LocalTime to validate the format is correct before changing the timezone.
-     * <p>
-     * If the time is not valid we will let the exception propagate up.
      *
      * @param time - The Time to validate. Should be in the format of {@value #TIME_PATTERN}
+     * @param startZone - timezone the time is in.
+     * @param endZone - timezone we are switching the timezone too.
+     * @return - String of time converted to the endZone.
      * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
-    static void validateTime(final String time) throws TimeConversionException {
+    static String convertTimezone(final String time, final DateFormat startZone, final DateFormat endZone)
+            throws TimeConversionException {
         try {
+            // Validate that the Time is in proper format.
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(TIME_PATTERN);
             LocalTime.parse(time, timeFormatter);
-        } catch (DateTimeParseException e) {
+
+            // Convert the time zone from start to end.
+            return endZone.format(startZone.parse(time));
+        } catch (DateTimeParseException | ParseException e) {
             log.error(e.getMessage());
             throw new TimeConversionException(e.getMessage(), e);
         }
