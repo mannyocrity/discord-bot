@@ -1,5 +1,6 @@
 package tv.mannyocrity.discordbot.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +15,8 @@ import java.time.DayOfWeek;
  */
 @Slf4j
 @NoArgsConstructor
-class TimeSlot {
+@EqualsAndHashCode
+public class TimeSlot {
     /**
      * Which day of the week this object represents.
      */

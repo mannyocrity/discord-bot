@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 
-import java.text.ParseException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
