@@ -1,11 +1,14 @@
 package tv.mannyocrity.discordbot.model;
 
-import org.junit.Test;
-
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Test;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
+import tv.mannyocrity.discordbot.utils.TimeConversion;
 
-import static org.junit.Assert.assertEquals;
+import java.time.DayOfWeek;
+import java.time.format.DateTimeParseException;
+
+import static org.junit.Assert.*;
 
 @Slf4j
 public class TimeSlotTest {
@@ -16,27 +19,35 @@ public class TimeSlotTest {
         int offset = -8;
         TimeSlot toTest = new TimeSlot();
         String startTime = "09:15 PM";
-        String expectedTime = "05:15 AM";
+        String expectedStartTime = "05:15 AM";
+
+        String endTime = "11:30 PM";
+        String expectedEndTime = "07:30 AM";
 
         // EXECUTE
-        toTest.setStartTime(startTime, offset);
+        toTest.setStreamDay(startTime, endTime, offset);
 
         // VERIFY
-        assertEquals(expectedTime, toTest.getStartTime());
+        assertEquals(expectedStartTime, toTest.getStartTime());
+        assertEquals(expectedEndTime, toTest.getEndTime());
+        assertFalse(toTest.isOff());
     }
 
     @Test
-    public void setEndTime() throws TimeConversionException {
+    public void setOffDay() throws TimeConversionException {
         // SETUP
-        int offset = -7;
+        int offset = -8;
         TimeSlot toTest = new TimeSlot();
-        String startTime = "03:20 AM";
-        String expectedTime = "10:20 AM";
+        toTest.setDay(DayOfWeek.MONDAY);
+        toTest.setStreamDay("10:30 PM", "11:00 PM", offset);
 
-        // EXECUTE
-        toTest.setStartTime(startTime, offset);
+        //EXECUTE
+        assertFalse(toTest.isOff());
+        toTest.setOffDay();
 
         // VERIFY
-        assertEquals(expectedTime, toTest.getStartTime());
+        assertTrue(toTest.isOff());
+        assertNull(toTest.getStartTime());
+        assertNull(toTest.getEndTime());
     }
 }
