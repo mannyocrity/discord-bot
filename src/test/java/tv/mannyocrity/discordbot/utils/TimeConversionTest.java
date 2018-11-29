@@ -1,26 +1,18 @@
 package tv.mannyocrity.discordbot.utils;
 
+import java.time.ZoneOffset;
+
 import org.apache.logging.log4j.Level;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
+
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.rules.LogVerify;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class TimeConversionTest {
-    @Mock
-    private DateFormat startZoneMock;
-
-    @Mock
-    private DateFormat endZoneMock;
 
     @Rule
     public LogVerify logVerify = new LogVerify() {{
@@ -35,7 +27,7 @@ public class TimeConversionTest {
         String expectedTime = "10:30 PM";
 
         // EXECUTE
-        String result = TimeConversion.convertFromUTC(startTime, timezone);
+        String result = TimeConversion.convertFromUTC(startTime, -8);
 
         // VERIFY
         assertEquals(expectedTime, result);
@@ -44,43 +36,40 @@ public class TimeConversionTest {
     @Test
     public void convertToUTC() throws TimeConversionException {
         // SETUP
-        String timezone = "CST";
+        int offset = -6;
         String startTime = "10:30 PM";
         String expectedTime = "04:30 AM";
 
         // EXECUTE
-        String result = TimeConversion.convertToUTC(startTime, timezone);
+        String result = TimeConversion.convertToUTC(startTime, offset);
 
         // VERIFY
         assertEquals(expectedTime, result);
     }
 
     @Test
-    public void validateTime() throws TimeConversionException {
+    public void convertTimezone() throws TimeConversionException {
         // SETUP
         String time = "10:30 PM";
-        DateFormat startZone = new SimpleDateFormat(TimeConversion.TIME_PATTERN, Locale.ROOT);
-        startZone.setTimeZone(TimeZone.getTimeZone("PST"));
 
-        DateFormat utcFormat = new SimpleDateFormat(TimeConversion.TIME_PATTERN);
-        utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(-5);
 
         // EXECUTE
-        TimeConversion.convertTimezone(time, startZone, utcFormat);
+        TimeConversion.convertTimezone(time, zoneOffset, ZoneOffset.UTC);
 
         // VERIFY
         // No exception is thrown.
     }
 
     @Test
-    public void validateTimeInvalidHour() {
+    public void convertTimezoneInvalidHour() {
         // SETUP
         String time = "15:30 PM";
 
         try {
             // EXECUTE
-            TimeConversion.convertTimezone(time, startZoneMock, endZoneMock);
-            fail("DateTimeParseException is not thrown.");
+            TimeConversion.convertTimezone(time, ZoneOffset.UTC, ZoneOffset.UTC);
+            fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
             logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
@@ -88,14 +77,14 @@ public class TimeConversionTest {
     }
 
     @Test
-    public void validateTimeInvalidMinute() {
+    public void convertTimezoneInvalidMinute() {
         // SETUP
         String time = "09:61 PM";
 
         try {
             // EXECUTE
-            TimeConversion.convertTimezone(time, startZoneMock, endZoneMock);
-            fail("DateTimeParseException is not thrown.");
+            TimeConversion.convertTimezone(time, ZoneOffset.UTC, ZoneOffset.UTC);
+            fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
             logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
@@ -103,14 +92,14 @@ public class TimeConversionTest {
     }
 
     @Test
-    public void validateTimeInvalidMeridies () {
+    public void convertTimezoneInvalidMeridies() {
         // SETUP
         String time = "09:15 CM";
 
         try {
             // EXECUTE
-            TimeConversion.convertTimezone(time, startZoneMock, endZoneMock);
-            fail("DateTimeParseException is not thrown.");
+            TimeConversion.convertTimezone(time, ZoneOffset.UTC, ZoneOffset.UTC);
+            fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
             logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
@@ -118,14 +107,44 @@ public class TimeConversionTest {
     }
 
     @Test
-    public void validateTimeInvalidFormat () {
+    public void convertTimezoneInvalidFormat() {
         // SETUP
         String time = "09 15 AM";
 
         try {
             // EXECUTE
-            TimeConversion.convertTimezone(time, startZoneMock, endZoneMock);
-            fail("DateTimeParseException is not thrown.");
+            TimeConversion.convertTimezone(time, ZoneOffset.UTC, ZoneOffset.UTC);
+            fail("TimeConversionException is not thrown.");
+            // VERIFY
+        } catch (TimeConversionException e) {
+            logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
+        }
+    }
+
+    @Test
+    public void validateOffsetInvalidOffsetToLow() {
+        // SETUP
+        int offset = -19;
+
+        try {
+            // EXECUTE
+            TimeConversion.validateOffset(offset);
+            fail("TimeConversionException is not thrown.");
+            // VERIFY
+        } catch (TimeConversionException e) {
+            logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
+        }
+    }
+
+    @Test
+    public void validateOffsetInvalidOffsetToHigh() {
+        // SETUP
+        int offset = 19;
+
+        try {
+            // EXECUTE
+            TimeConversion.validateOffset(offset);
+            fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
             logVerify.verifyLogMessages(e.getMessage(), Level.ERROR);
