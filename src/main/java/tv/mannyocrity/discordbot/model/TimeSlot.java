@@ -47,7 +47,7 @@ public class TimeSlot {
      * @param offset - The number of hours difference from UTC that the time value is.
      * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
-    void setStreamDay(final String startTimeXYZ, final String endTimeXYZ, final int offset)
+    public final void setStreamDay(final String startTimeXYZ, final String endTimeXYZ, final int offset)
             throws TimeConversionException {
         this.startTime = TimeConversion.convertToUTC(startTimeXYZ, offset);
         this.endTime = TimeConversion.convertToUTC(endTimeXYZ, offset);
@@ -56,7 +56,7 @@ public class TimeSlot {
     /**
      * Sets off day to true and nulls out start and end times.
      */
-    void setOffDay() {
+    final void setOffDay() {
         off = true;
         startTime = null;
         endTime = null;

@@ -34,7 +34,7 @@ public class ScheduleTest {
 
         TimeSlot ts = new TimeSlot();
         ts.setDay(DayOfWeek.MONDAY);
-        ts.setStreamDay("10:30 PM", "11:00 PM","PST");
+        ts.setStreamDay("10:30 PM", "11:00 PM",-8);
 
         List<TimeSlot> timeSlotList = new ArrayList();
         timeSlotList.add(ts);

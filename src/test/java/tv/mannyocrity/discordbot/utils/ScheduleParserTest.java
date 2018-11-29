@@ -35,7 +35,7 @@ public class ScheduleParserTest {
         List<TimeSlot> timeSlotList = new ArrayList<>();
         TimeSlot ts = new TimeSlot();
         ts.setDay(DayOfWeek.MONDAY);
-        ts.setStreamDay("10:30 PM", "11:00 PM","PST");
+        ts.setStreamDay("10:30 PM", "11:00 PM",-8);
         timeSlotList.add(ts);
         ts.setDay(DayOfWeek.WEDNESDAY);
         timeSlotList.add(ts);
@@ -61,7 +61,7 @@ public class ScheduleParserTest {
         List<TimeSlot> timeSlotList = new ArrayList<>();
         TimeSlot ts = new TimeSlot();
         ts.setDay(DayOfWeek.MONDAY);
-        ts.setStreamDay("10:30 PM", "11:00 PM","PST");
+        ts.setStreamDay("10:30 PM", "11:00 PM",-8);
         timeSlotList.add(ts);
         ts.setDay(DayOfWeek.WEDNESDAY);
         timeSlotList.add(ts);
