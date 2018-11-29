@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.model.Schedule;
 import tv.mannyocrity.discordbot.model.TimeSlot;
 
@@ -25,7 +26,7 @@ public class ScheduleParserTest {
             "{\"day\":\"SATURDAY\",\"startTime\":\"06:30 AM\",\"endTime\":\"07:00 AM\",\"off\":false}]}";
 
     @Test
-    public void deserializeSchedule() throws ParseException, IOException {
+    public void deserializeSchedule() throws IOException, TimeConversionException {
         // SETUP
         Schedule expectedSchedule = new Schedule();
         expectedSchedule.setDiscordId("someone");
@@ -51,7 +52,7 @@ public class ScheduleParserTest {
     }
 
     @Test
-    public void serializeSchedule() throws ParseException, JsonProcessingException {
+    public void serializeSchedule() throws JsonProcessingException, TimeConversionException {
         // SETUP
         Schedule schedule = new Schedule();
         schedule.setDiscordId("someone");
