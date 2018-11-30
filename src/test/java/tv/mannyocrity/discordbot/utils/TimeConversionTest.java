@@ -1,7 +1,5 @@
 package tv.mannyocrity.discordbot.utils;
 
-import java.time.ZoneOffset;
-
 import org.apache.logging.log4j.Level;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,12 +20,12 @@ public class TimeConversionTest {
     @Test
     public void convertFromUTC() throws TimeConversionException {
         // SETUP
-        String timezone = "PST";
+        int offset = -8;
         String startTime = "06:30 AM";
         String expectedTime = "10:30 PM";
 
         // EXECUTE
-        String result = TimeConversion.convertFromUTC(startTime, -8);
+        String result = TimeConversion.convertFromUTC(startTime, offset);
 
         // VERIFY
         assertEquals(expectedTime, result);
@@ -52,10 +50,8 @@ public class TimeConversionTest {
         // SETUP
         String time = "10:30 PM";
 
-        ZoneOffset zoneOffset = ZoneOffset.ofHours(-5);
-
         // EXECUTE
-        TimeConversion.convertTimezone(time, zoneOffset, ZoneOffset.UTC);
+        TimeConversion.convertTimezone(time, -5, 0);
 
         // VERIFY
         // No exception is thrown.
@@ -68,7 +64,7 @@ public class TimeConversionTest {
 
         try {
             // EXECUTE
-            TimeConversion.convertTimezone(time, ZoneOffset.UTC, ZoneOffset.UTC);
+            TimeConversion.convertTimezone(time, 0, 0);
             fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
@@ -83,7 +79,7 @@ public class TimeConversionTest {
 
         try {
             // EXECUTE
-            TimeConversion.convertTimezone(time, ZoneOffset.UTC, ZoneOffset.UTC);
+            TimeConversion.convertTimezone(time, 0, 0);
             fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
@@ -98,7 +94,7 @@ public class TimeConversionTest {
 
         try {
             // EXECUTE
-            TimeConversion.convertTimezone(time, ZoneOffset.UTC, ZoneOffset.UTC);
+            TimeConversion.convertTimezone(time, 0, 0);
             fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
@@ -113,7 +109,7 @@ public class TimeConversionTest {
 
         try {
             // EXECUTE
-            TimeConversion.convertTimezone(time, ZoneOffset.UTC, ZoneOffset.UTC);
+            TimeConversion.convertTimezone(time, 0, 0);
             fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
@@ -124,11 +120,12 @@ public class TimeConversionTest {
     @Test
     public void validateOffsetInvalidOffsetToLow() {
         // SETUP
+        String time = "09:15 AM";
         int offset = -19;
 
         try {
             // EXECUTE
-            TimeConversion.validateOffset(offset);
+            TimeConversion.convertTimezone(time, offset, 0);
             fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {
@@ -139,11 +136,12 @@ public class TimeConversionTest {
     @Test
     public void validateOffsetInvalidOffsetToHigh() {
         // SETUP
+        String time = "09:15 AM";
         int offset = 19;
 
         try {
             // EXECUTE
-            TimeConversion.validateOffset(offset);
+            TimeConversion.convertTimezone(time, offset, 0);
             fail("TimeConversionException is not thrown.");
             // VERIFY
         } catch (TimeConversionException e) {

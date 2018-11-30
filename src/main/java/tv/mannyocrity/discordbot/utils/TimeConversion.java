@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 import lombok.extern.slf4j.Slf4j;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
@@ -19,6 +18,11 @@ public final class TimeConversion {
      * The time format used '10:30 PM'.
      */
     static final String TIME_PATTERN = "hh:mm a";
+
+    /**
+     * The UTC timezone offset in hours.
+     */
+    static final int UTC_OFFSET = 0;
 
     /**
      * Utility class should not have a public constructor.
@@ -35,8 +39,7 @@ public final class TimeConversion {
      * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
     public static String convertFromUTC(final String time, final int offset) throws TimeConversionException {
-        ZoneOffset zoneOffset = validateOffset(offset);
-        return convertTimezone(time, ZoneOffset.UTC, zoneOffset);
+        return convertTimezone(time, UTC_OFFSET, offset);
     }
 
     /**
@@ -48,24 +51,7 @@ public final class TimeConversion {
      * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
     public static String convertToUTC(final String time, final int offset) throws TimeConversionException {
-        ZoneOffset zoneOffset = validateOffset(offset);
-        return convertTimezone(time, zoneOffset, ZoneOffset.UTC);
-    }
-
-    /**
-     * Validates that the offset is in the acceptable range.
-     *
-     * @param offset - The number of hours difference from UTC that the time value is.
-     * @return - offset value as a ZoneOffset object.
-     * @throws TimeConversionException - when the offset is not within the valid range.
-     */
-    static ZoneOffset validateOffset(final int offset) throws TimeConversionException {
-        try {
-            return ZoneOffset.ofHours(offset);
-        } catch (DateTimeException e) {
-            log.error(e.getMessage());
-            throw new TimeConversionException(e.getMessage(), e);
-        }
+        return convertTimezone(time, offset, UTC_OFFSET);
     }
 
     /**
@@ -73,25 +59,28 @@ public final class TimeConversion {
      * destination timezone offset.
      *
      * @param time              - The Time to validate. Should be in the format of {@value #TIME_PATTERN}
-     * @param currentOffset     - The current timezone offset the time value is set to.
-     * @param destinationOffset - The timezone offset we are setting the time value to.
+     * @param currentOffset     - The current timezone offset in hours the time value is set to.
+     * @param destinationOffset - The timezone offset in hours we are setting the time value to.
      * @return - String of time converted to the endZone.
      * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
-    static String convertTimezone(final String time, final ZoneOffset currentOffset, final ZoneOffset destinationOffset)
+    static String convertTimezone(final String time, final int currentOffset, final int destinationOffset)
             throws TimeConversionException {
 
         try {
+            ZoneOffset startZoneOffset = ZoneOffset.ofHours(currentOffset);
+            ZoneOffset destZoneOffset = ZoneOffset.ofHours(destinationOffset);
+
             // Validate that the Time is in proper format.
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(TIME_PATTERN);
             LocalTime localTime = LocalTime.parse(time, timeFormatter);
 
             // Set time to given timezone offset.
-            OffsetTime offsetTime = localTime.atOffset(currentOffset);
+            OffsetTime offsetTime = localTime.atOffset(startZoneOffset);
             // Get UTC from time zoned time.
-            return timeFormatter.format(offsetTime.withOffsetSameInstant(destinationOffset));
+            return timeFormatter.format(offsetTime.withOffsetSameInstant(destZoneOffset));
 
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeException e) {
             log.error(e.getMessage());
             throw new TimeConversionException(e.getMessage(), e);
         }
