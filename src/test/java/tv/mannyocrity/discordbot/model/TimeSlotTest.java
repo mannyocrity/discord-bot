@@ -3,10 +3,8 @@ package tv.mannyocrity.discordbot.model;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
-import tv.mannyocrity.discordbot.utils.TimeConversion;
 
 import java.time.DayOfWeek;
-import java.time.format.DateTimeParseException;
 
 import static org.junit.Assert.*;
 

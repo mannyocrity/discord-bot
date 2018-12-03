@@ -40,11 +40,11 @@ public class TimeSlot {
     private boolean off = false;
 
     /**
-     * Converts the start and end time to UTC timezone and then sets it.
+     * Converts the start and end time to UTC timezone.
      *
      * @param startTimeXYZ - Start time of stream in String format to set.
-     * @param endTimeXYZ - End time of stream in String format to set.
-     * @param offset - The number of hours difference from UTC that the time value is.
+     * @param endTimeXYZ   - End time of stream in String format to set.
+     * @param offset       - The number of hours difference from UTC that the time value is.
      * @throws TimeConversionException - if the time cannot be parsed correctly.
      */
     public final void setStreamDay(final String startTimeXYZ, final String endTimeXYZ, final int offset)
@@ -53,6 +53,7 @@ public class TimeSlot {
         this.endTime = TimeConversion.convertToUTC(endTimeXYZ, offset);
         this.off = false;
     }
+
     /**
      * Sets off day to true and nulls out start and end times.
      */
