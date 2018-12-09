@@ -21,9 +21,9 @@ public class ScheduleParserTest {
     final String json = "{\"discordId\":\"someone\"," +
             "\"twitchId\":\"nobody\"," +
             "\"days\":[" +
-            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30 AM\",\"endTime\":\"07:00 AM\",\"off\":false}," +
-            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30 AM\",\"endTime\":\"07:00 AM\",\"off\":false}," +
-            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30 AM\",\"endTime\":\"07:00 AM\",\"off\":false}]}";
+            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30AM\",\"endTime\":\"07:00AM\",\"off\":false}," +
+            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30AM\",\"endTime\":\"07:00AM\",\"off\":false}," +
+            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30AM\",\"endTime\":\"07:00AM\",\"off\":false}]}";
 
     @Test
     public void deserializeSchedule() throws IOException, TimeConversionException {
@@ -35,7 +35,7 @@ public class ScheduleParserTest {
         List<TimeSlot> timeSlotList = new ArrayList<>();
         TimeSlot ts = new TimeSlot();
         ts.setDay(DayOfWeek.MONDAY);
-        ts.setStreamDay("10:30 PM", "11:00 PM",-8);
+        ts.setStreamDay("10:30PM", "11:00PM",-8);
         timeSlotList.add(ts);
         ts.setDay(DayOfWeek.WEDNESDAY);
         timeSlotList.add(ts);
@@ -61,7 +61,7 @@ public class ScheduleParserTest {
         List<TimeSlot> timeSlotList = new ArrayList<>();
         TimeSlot ts = new TimeSlot();
         ts.setDay(DayOfWeek.MONDAY);
-        ts.setStreamDay("10:30 PM", "11:00 PM",-8);
+        ts.setStreamDay("10:30PM", "11:00PM",-8);
         timeSlotList.add(ts);
         ts.setDay(DayOfWeek.WEDNESDAY);
         timeSlotList.add(ts);

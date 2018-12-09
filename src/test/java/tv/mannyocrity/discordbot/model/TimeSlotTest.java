@@ -16,11 +16,11 @@ public class TimeSlotTest {
         // SETUP
         int offset = -8;
         TimeSlot toTest = new TimeSlot();
-        String startTime = "09:15 PM";
-        String expectedStartTime = "05:15 AM";
+        String startTime = "09:15PM";
+        String expectedStartTime = "05:15AM";
 
-        String endTime = "11:30 PM";
-        String expectedEndTime = "07:30 AM";
+        String endTime = "11:30PM";
+        String expectedEndTime = "07:30AM";
 
         // EXECUTE
         toTest.setStreamDay(startTime, endTime, offset);
@@ -37,7 +37,7 @@ public class TimeSlotTest {
         int offset = -8;
         TimeSlot toTest = new TimeSlot();
         toTest.setDay(DayOfWeek.MONDAY);
-        toTest.setStreamDay("10:30 PM", "11:00 PM", offset);
+        toTest.setStreamDay("10:30PM", "11:00PM", offset);
 
         //EXECUTE
         assertFalse(toTest.isOff());

@@ -1,13 +1,12 @@
 package tv.mannyocrity.discordbot.utils;
 
-import java.time.ZoneOffset;
-
 import org.apache.logging.log4j.Level;
 import org.junit.Rule;
 import org.junit.Test;
-
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.rules.LogVerify;
+
+import java.time.ZoneOffset;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -23,8 +22,8 @@ public class TimeConversionTest {
     public void convertFromUTC() throws TimeConversionException {
         // SETUP
         int offset = -8;
-        String startTime = "06:30 AM";
-        String expectedTime = "10:30 PM";
+        String startTime = "06:30AM";
+        String expectedTime = "10:30PM";
 
         // EXECUTE
         String result = TimeConversion.convertFromUTC(startTime, offset);
@@ -37,8 +36,8 @@ public class TimeConversionTest {
     public void convertToUTC() throws TimeConversionException {
         // SETUP
         int offset = -6;
-        String startTime = "10:30 PM";
-        String expectedTime = "04:30 AM";
+        String startTime = "10:30PM";
+        String expectedTime = "04:30AM";
 
         // EXECUTE
         String result = TimeConversion.convertToUTC(startTime, offset);
@@ -50,8 +49,8 @@ public class TimeConversionTest {
     @Test
     public void convertTimezone() throws TimeConversionException {
         // SETUP
-        String time = "10:30 PM";
-        String expectedTime = "03:30 AM";
+        String time = "10:30PM";
+        String expectedTime = "03:30AM";
 
         ZoneOffset zoneOffset = ZoneOffset.ofHours(-5);
 
@@ -65,8 +64,8 @@ public class TimeConversionTest {
     @Test
     public void convertTimezoneLowercaseMeridies() throws TimeConversionException {
         // SETUP
-        String time = "10:30 pm";
-        String expectedTime = "03:30 AM";
+        String time = "10:30pm";
+        String expectedTime = "03:30AM";
         ZoneOffset zoneOffset = ZoneOffset.ofHours(-5);
 
         // EXECUTE
@@ -79,7 +78,7 @@ public class TimeConversionTest {
     @Test
     public void convertTimezoneInvalidHour() {
         // SETUP
-        String time = "13:30 PM";
+        String time = "13:30PM";
 
         try {
             // EXECUTE
@@ -94,7 +93,7 @@ public class TimeConversionTest {
     @Test
     public void convertTimezoneInvalidMinute() {
         // SETUP
-        String time = "09:60 PM";
+        String time = "09:60PM";
 
         try {
             // EXECUTE
@@ -109,7 +108,7 @@ public class TimeConversionTest {
     @Test
     public void convertTimezoneInvalidMeridies() {
         // SETUP
-        String time = "09:15 CM";
+        String time = "09:15CM";
 
         try {
             // EXECUTE
@@ -124,7 +123,7 @@ public class TimeConversionTest {
     @Test
     public void convertTimezoneInvalidFormat() {
         // SETUP
-        String time = "09 15 AM";
+        String time = "09 15AM";
 
         try {
             // EXECUTE

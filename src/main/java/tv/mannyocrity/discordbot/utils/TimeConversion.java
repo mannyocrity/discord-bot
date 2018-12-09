@@ -1,14 +1,14 @@
 package tv.mannyocrity.discordbot.utils;
 
+import lombok.extern.slf4j.Slf4j;
+import tv.mannyocrity.discordbot.exception.TimeConversionException;
+
 import java.time.DateTimeException;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-import lombok.extern.slf4j.Slf4j;
-import tv.mannyocrity.discordbot.exception.TimeConversionException;
 
 /**
  * Helper methods to assist with converting to and from UTC.
@@ -18,7 +18,7 @@ public final class TimeConversion {
     /**
      * The time format used '10:30 PM'.
      */
-    static final String TIME_PATTERN = "hh:mm a";
+    static final String TIME_PATTERN = "hh:mma";
 
     /**
      * Utility class should not have a public constructor.
