@@ -4,9 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 
-import java.time.DayOfWeek;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 @Slf4j
 public class TimeSlotTest {
@@ -36,7 +37,6 @@ public class TimeSlotTest {
         // SETUP
         int offset = -8;
         TimeSlot toTest = new TimeSlot();
-        toTest.setDay(DayOfWeek.MONDAY);
         toTest.setStreamDay("10:30PM", "11:00PM", offset);
 
         //EXECUTE
