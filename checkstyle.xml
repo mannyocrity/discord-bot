@@ -149,7 +149,9 @@
         <module name="HiddenField"/>
         <module name="IllegalInstantiation"/>
         <module name="InnerAssignment"/>
-        <module name="MagicNumber"/>
+        <module name="MagicNumber">
+            <property name="id" value="checkstyle:magicnumber"/>
+        </module>
         <module name="MissingSwitchDefault"/>
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
@@ -166,9 +168,18 @@
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="ArrayTypeStyle"/>
         <module name="FinalParameters"/>
-        <module name="TodoComment"/>
+        <module name="TodoComment">
+            <!-- We want TODOs to still be caught by checkstyle, but not cause a build failure. -->
+            <property name="severity" value="warning"/>
+        </module>
         <module name="UpperEll"/>
 
+    </module>
+
+    <module name="SuppressWithNearbyCommentFilter">
+        <property name="commentFormat" value="CHECKSTYLE IGNORE (\w+) FOR NEXT (\d+) LINES"/>
+        <property name="checkFormat" value="$1"/>
+        <property name="influenceFormat" value="$2"/>
     </module>
 
 </module>
