@@ -1,25 +1,38 @@
 package tv.mannyocrity.discordbot.command;
 
+import org.apache.logging.log4j.Level;
+import org.junit.Rule;
 import org.junit.Test;
-import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.model.TimeSlot;
+import tv.mannyocrity.discordbot.rules.LogVerify;
+import tv.mannyocrity.discordbot.utils.CollectionsHelper;
+
+import static org.junit.Assert.assertNull;
 
 public class ScheduleCommandTest {
+    @Rule
+    public LogVerify logVerify = new LogVerify() {{
+        recordLoggingForType(ScheduleCommand.class);
+    }};
+
     ScheduleCommand toTest;
 
     @Test
-    public void parseDay() throws TimeConversionException {
+    public void parseDayIllegalDay() {
         // SETUP
-        String day = "mon=10:30pm-1:00am";
-        TimeSlot expected = new TimeSlot();
-        expected.setStreamDay("10:30pm", "1:30am", 1);
-
         toTest = new ScheduleCommand();
+
+        String day = "foo=10:30pm-1:00am";
+        String expectedLogMsg = "Not a valid day of the week. " + CollectionsHelper.getKeysFromMap(ScheduleCommand.getDayMapping());
 
         // EXECUTE
         TimeSlot result = toTest.parseDay(day);
 
         // VERIFY
-//        assertEquals(result);
+        assertNull(result);
+
+        logVerify.verifyLogMessages(expectedLogMsg, Level.ERROR);
+
     }
+
 }

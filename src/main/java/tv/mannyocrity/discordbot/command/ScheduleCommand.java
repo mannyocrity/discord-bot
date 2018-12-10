@@ -1,13 +1,14 @@
 package tv.mannyocrity.discordbot.command;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.model.TimeSlot;
+import tv.mannyocrity.discordbot.utils.CollectionsHelper;
 
 import java.time.DayOfWeek;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -26,15 +27,14 @@ public class ScheduleCommand implements Command {
      * Regular Expression Pattern for representing the day/time format.
      */
     private static final String DAY_PATTERN = "^(\\w{3})=" + TIME_PATTERN + "-" + TIME_PATTERN;
+
     /**
-     * List of valid days of the week in short form.
+     * A static map of days mapping to DayOfWeek.
      */
-    private static final List<String> DAYS = Arrays.asList("mon", "tue", "wed", "thu", "fri", "sat", "sun");
+    @Getter
+    private static Map<String, DayOfWeek> dayMapping = new LinkedHashMap<>();
 
-    /** A static map of commands mapping from command string to the functional impl. */
-    private static Map<String, DayOfWeek> dayMapping = new HashMap<>();
-
-    // Statically populate the commandMap with the known commands.
+    // Statically populate the dayMap with the days of teh week.
     static {
         dayMapping.put("mon", DayOfWeek.MONDAY);
         dayMapping.put("tue", DayOfWeek.TUESDAY);
@@ -72,7 +72,7 @@ public class ScheduleCommand implements Command {
                 startTime = matcher.group(2);
                 endTime = matcher.group(3);
             } else {
-                log.error("Not a valid day of the week. {}", DAYS.toString());
+                log.error("Not a valid day of the week. {}", CollectionsHelper.getKeysFromMap(dayMapping).toString());
                 return null;
             }
         } else {
@@ -88,8 +88,6 @@ public class ScheduleCommand implements Command {
             // TODO: We should send a message to user that format is wrong.
             return null;
         }
-
         return timeSlot;
     }
-
 }
