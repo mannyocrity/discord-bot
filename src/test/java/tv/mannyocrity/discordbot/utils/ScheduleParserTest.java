@@ -21,9 +21,9 @@ public class ScheduleParserTest {
     final String json = "{\"discordId\":\"someone\"," +
             "\"twitchId\":\"nobody\"," +
             "\"days\":[" +
-            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30AM\",\"endTime\":\"07:00AM\",\"off\":false}," +
-            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30AM\",\"endTime\":\"07:00AM\",\"off\":false}," +
-            "{\"day\":\"SATURDAY\",\"startTime\":\"06:30AM\",\"endTime\":\"07:00AM\",\"off\":false}]}";
+            "{\"day\":\"SATURDAY\",\"startTime\":\"6:30AM\",\"endTime\":\"7:00AM\",\"off\":false}," +
+            "{\"day\":\"SATURDAY\",\"startTime\":\"6:30AM\",\"endTime\":\"7:00AM\",\"off\":false}," +
+            "{\"day\":\"SATURDAY\",\"startTime\":\"6:30AM\",\"endTime\":\"7:00AM\",\"off\":false}]}";
 
     @Test
     public void deserializeSchedule() throws IOException, TimeConversionException {

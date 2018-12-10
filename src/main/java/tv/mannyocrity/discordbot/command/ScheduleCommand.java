@@ -21,15 +21,15 @@ public class ScheduleCommand implements Command {
     /**
      * Regular Expression Pattern for representing the time format.
      */
-    static final String TIME_PATTERN = "(\\d{1,2}:\\d{2}[a|p|A|P]m)";
+    private static final String TIME_PATTERN = "(\\d{1,2}:\\d{2}[a|p|A|P]m)";
     /**
      * Regular Expression Pattern for representing the day/time format.
      */
-    static final String DAY_PATTERN = "^(\\w{3})=" + TIME_PATTERN + "-" + TIME_PATTERN;
+    private static final String DAY_PATTERN = "^(\\w{3})=" + TIME_PATTERN + "-" + TIME_PATTERN;
     /**
      * List of valid days of the week in short form.
      */
-    static final List<String> DAYS = Arrays.asList("mon", "tue", "wed", "thu", "fri", "sat", "sun");
+    private static final List<String> DAYS = Arrays.asList("mon", "tue", "wed", "thu", "fri", "sat", "sun");
 
     /** A static map of commands mapping from command string to the functional impl. */
     private static Map<String, DayOfWeek> dayMapping = new HashMap<>();
@@ -67,13 +67,14 @@ public class ScheduleCommand implements Command {
 
         Matcher matcher = pattern.matcher(value);
         if (matcher.find()) {
-            if (!DAYS.contains(matcher.group(1))) {
+            if (dayMapping.containsKey(matcher.group(1))) {
+                day = matcher.group(1);
+                startTime = matcher.group(2);
+                endTime = matcher.group(3);
+            } else {
                 log.error("Not a valid day of the week. {}", DAYS.toString());
                 return null;
             }
-            day = matcher.group(1);
-            startTime = matcher.group(2);
-            endTime = matcher.group(3);
         } else {
             log.error("'{}' does not match regular expression.", value);
             return null;

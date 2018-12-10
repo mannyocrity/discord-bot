@@ -18,10 +18,10 @@ public class TimeSlotTest {
         int offset = -8;
         TimeSlot toTest = new TimeSlot();
         String startTime = "09:15PM";
-        String expectedStartTime = "05:15AM";
+        String expectedStartTime = "5:15AM";
 
         String endTime = "11:30PM";
-        String expectedEndTime = "07:30AM";
+        String expectedEndTime = "7:30AM";
 
         // EXECUTE
         toTest.setStreamDay(startTime, endTime, offset);

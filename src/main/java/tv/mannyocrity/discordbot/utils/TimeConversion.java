@@ -18,7 +18,7 @@ public final class TimeConversion {
     /**
      * The time format used '10:30 PM'.
      */
-    static final String TIME_PATTERN = "hh:mma";
+    static final String TIME_PATTERN = "h:mma";
 
     /**
      * Utility class should not have a public constructor.
@@ -82,6 +82,7 @@ public final class TimeConversion {
             throws TimeConversionException {
 
         try {
+            log.debug("Converting {}.", time);
             // Make sure AM/PM are capitalized.
             String timeStr = time.replace("am", "AM").replace("pm", "PM");
 

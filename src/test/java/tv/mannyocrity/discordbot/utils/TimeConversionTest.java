@@ -37,7 +37,7 @@ public class TimeConversionTest {
         // SETUP
         int offset = -6;
         String startTime = "10:30PM";
-        String expectedTime = "04:30AM";
+        String expectedTime = "4:30AM";
 
         // EXECUTE
         String result = TimeConversion.convertToUTC(startTime, offset);
@@ -50,9 +50,24 @@ public class TimeConversionTest {
     public void convertTimezone() throws TimeConversionException {
         // SETUP
         String time = "10:30PM";
-        String expectedTime = "03:30AM";
+        String expectedTime = "3:30AM";
 
         ZoneOffset zoneOffset = ZoneOffset.ofHours(-5);
+
+        // EXECUTE
+        String result = TimeConversion.convertTimezone(time, zoneOffset, ZoneOffset.UTC);
+
+        // VERIFY
+        assertEquals(expectedTime, result);
+    }
+
+    @Test
+    public void convertTimezoneTimeWithLeadingZero() throws TimeConversionException {
+        // SETUP
+        String time = "06:00am";
+        String expectedTime = "5:00AM";
+
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(1);
 
         // EXECUTE
         String result = TimeConversion.convertTimezone(time, zoneOffset, ZoneOffset.UTC);
@@ -65,7 +80,7 @@ public class TimeConversionTest {
     public void convertTimezoneLowercaseMeridies() throws TimeConversionException {
         // SETUP
         String time = "10:30pm";
-        String expectedTime = "03:30AM";
+        String expectedTime = "3:30AM";
         ZoneOffset zoneOffset = ZoneOffset.ofHours(-5);
 
         // EXECUTE
