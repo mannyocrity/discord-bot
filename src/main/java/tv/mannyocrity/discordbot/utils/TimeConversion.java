@@ -16,7 +16,7 @@ import java.time.format.DateTimeParseException;
 @Slf4j
 public final class TimeConversion {
     /**
-     * The time format used '10:30 PM'.
+     * The time format used '10:30pm'.
      */
     static final String TIME_PATTERN = "h:mma";
 

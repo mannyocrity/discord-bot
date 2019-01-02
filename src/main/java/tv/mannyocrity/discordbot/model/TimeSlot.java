@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.utils.TimeConversion;
@@ -16,6 +17,7 @@ import java.time.DayOfWeek;
 @Slf4j
 @NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class TimeSlot {
     /**
      * Which day of the week this object represents.
@@ -57,7 +59,7 @@ public class TimeSlot {
     /**
      * Sets off day to true and nulls out start and end times.
      */
-    final void setOffDay() {
+    public final void setOffDay() {
         off = true;
         startTime = null;
         endTime = null;
