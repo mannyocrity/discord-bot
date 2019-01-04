@@ -33,8 +33,11 @@
             <id>mvnRepo</id>
             <url>http://repo.spring.io/libs-release/</url>
         </repository>
+        <repository>
+            <id>mulesoft</id>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
+        </repository>
     </repositories>
-
 
 
     <build>
@@ -158,6 +161,20 @@
             <groupId>com.github.Discord4J</groupId>
             <artifactId>Discord4J</artifactId>
             <version>${discord4j.version}</version>
+        </dependency>
+
+        <!-- DynamoDB -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-dynamodb</artifactId>
+            <version>1.11.477</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>DynamoDBLocal</artifactId>
+            <version>1.11.119</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Jackson -->
