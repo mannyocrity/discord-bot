@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import lombok.Getter;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 
 /**
  * Weekly schedule for a streamer.
@@ -14,9 +14,7 @@ public class Schedule {
     /**
      * The DynamoDB Table name.
      */
-    @DynamoDBIgnore
-    @Getter
-    public static final String TABLE_NAME = "schedule";
+    private final String tableName = "schedule";
     /**
      * The streamer's discord user Id.
      */
@@ -26,25 +24,49 @@ public class Schedule {
      */
     private String twitchId;
 
-    /** sunday's timeslot. */
+    /**
+     * sunday's timeslot.
+     */
     private TimeSlot sunday;
-    /** monday's timeslot. */
+    /**
+     * monday's timeslot.
+     */
     private TimeSlot monday;
-    /** tuesday's timeslot. */
+    /**
+     * tuesday's timeslot.
+     */
     private TimeSlot tuesday;
-    /** wednesday's timeslot. */
+    /**
+     * wednesday's timeslot.
+     */
     private TimeSlot wednesday;
-    /** thursday's timeslot. */
+    /**
+     * thursday's timeslot.
+     */
     private TimeSlot thursday;
-    /** friday's timeslot. */
+    /**
+     * friday's timeslot.
+     */
     private TimeSlot friday;
-    /** saturday's timeslot. */
+    /**
+     * saturday's timeslot.
+     */
     private TimeSlot saturday;
 
     /**
+     * @return - The table name for the DynamoDB table.
+     */
+    @DynamoDBIgnore
+    public final String getTableName() {
+        return tableName;
+    }
+
+    /**
      * Getter created for DynamoDB table access.
+     *
      * @return TimeSlot for Sunday.
      */
+    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "sunday")
     public final TimeSlot getSunday() {
         return sunday;
@@ -52,6 +74,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param sunday - Sunday's TimeSlot to set.
      */
     public final void setSunday(final TimeSlot sunday) {
@@ -60,8 +83,10 @@ public class Schedule {
 
     /**
      * Getter created for DynamoDB table access.
+     *
      * @return TimeSlot for Monday.
      */
+    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "monday")
     public final TimeSlot getMonday() {
         return monday;
@@ -69,6 +94,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param monday - Monday's TimeSlot to set.
      */
     public final void setMonday(final TimeSlot monday) {
@@ -77,8 +103,10 @@ public class Schedule {
 
     /**
      * Getter created for DynamoDB table access.
+     *
      * @return TimeSlot for Tuesday.
      */
+    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "tuesday")
     public final TimeSlot getTuesday() {
         return tuesday;
@@ -86,6 +114,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param tuesday - Tuesday's TimeSlot to set.
      */
     public final void setTuesday(final TimeSlot tuesday) {
@@ -94,8 +123,10 @@ public class Schedule {
 
     /**
      * Getter created for DynamoDB table access.
+     *
      * @return TimeSlot for Wednesday.
      */
+    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "wednesday")
     public final TimeSlot getWednesday() {
         return wednesday;
@@ -103,6 +134,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param wednesday - Wednesday's TimeSlot to set.
      */
     public final void setWednesday(final TimeSlot wednesday) {
@@ -111,8 +143,10 @@ public class Schedule {
 
     /**
      * Getter created for DynamoDB table access.
+     *
      * @return TimeSlot for Thursday.
      */
+    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "thursday")
     public final TimeSlot getThursday() {
         return thursday;
@@ -120,6 +154,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param thursday - Thursday's TimeSlot to set.
      */
     public final void setThursday(final TimeSlot thursday) {
@@ -128,8 +163,10 @@ public class Schedule {
 
     /**
      * Getter created for DynamoDB table access.
+     *
      * @return TimeSlot for Friday.
      */
+    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "friday")
     public final TimeSlot getFriday() {
         return friday;
@@ -137,6 +174,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param friday - Friday's TimeSlot to set.
      */
     public final void setFriday(final TimeSlot friday) {
@@ -145,8 +183,10 @@ public class Schedule {
 
     /**
      * Getter created for DynamoDB table access.
+     *
      * @return TimeSlot for Saturday.
      */
+    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "saturday")
     public final TimeSlot getSaturday() {
         return saturday;
@@ -154,6 +194,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param saturday - Saturday's TimeSlot to set.
      */
     public final void setSaturday(final TimeSlot saturday) {
@@ -162,6 +203,7 @@ public class Schedule {
 
     /**
      * Getter created for DynamoDb table access.
+     *
      * @return - Streamers twitchId.
      */
     @DynamoDBHashKey(attributeName = "twitchId")
@@ -171,6 +213,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param twitchId - Streamer's twitchID.
      */
     public final void setTwitchId(final String twitchId) {
@@ -179,6 +222,7 @@ public class Schedule {
 
     /**
      * Getter created for DynamoDb table access.
+     *
      * @return - List of TimeSlots for streamers schedule.
      */
     @DynamoDBAttribute(attributeName = "discordId")
@@ -188,6 +232,7 @@ public class Schedule {
 
     /**
      * Setter created for DynamoDb table access.
+     *
      * @param discordId - Streamer's discordID.
      */
     public final void setDiscordId(final String discordId) {

@@ -1,22 +1,20 @@
 package tv.mannyocrity.discordbot.facade;
 
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Ignore;
 import org.junit.Test;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.model.Schedule;
 import tv.mannyocrity.discordbot.model.TimeSlot;
 
+@Slf4j
 public class DynamoDBClientFacadeTest {
 
     @Test
-    public void Connection() {
-        DynamoDBClientFacade client = new DynamoDBClientFacade();
-        client.listTables();
-    }
-
-    @Test
+    @Ignore("Will not work on the travis because of aws keys.")
     public void saveSchedule() throws TimeConversionException {
         // SETUP
-        DynamoDBClientFacade client = new DynamoDBClientFacade();
+        DynamoDBClientFacade toTest = new DynamoDBClientFacade();
 
         Schedule schedule = new Schedule();
         schedule.setTwitchId("Fooby");
@@ -25,8 +23,17 @@ public class DynamoDBClientFacadeTest {
         TimeSlot ts = new TimeSlot();
         ts.setStreamDay("10:30pm", "12:30am", -5);
         schedule.setMonday(ts);
+        schedule.setWednesday(ts);
+        schedule.setFriday(ts);
+        schedule.setSaturday(ts);
+
+        ts.setOffDay();
+        schedule.setSunday(ts);
+        schedule.setTuesday(ts);
+        schedule.setThursday(ts);
 
         // EXECUTE
+//        toTest.saveSchedule(schedule);
 
         // VALIDATE
     }

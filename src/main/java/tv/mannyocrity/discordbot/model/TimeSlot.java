@@ -1,5 +1,6 @@
 package tv.mannyocrity.discordbot.model;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,9 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.utils.TimeConversion;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Model for holding the time of the day a streamer will be streaming.
@@ -16,6 +20,11 @@ import tv.mannyocrity.discordbot.utils.TimeConversion;
 @EqualsAndHashCode
 @ToString
 public class TimeSlot {
+    /**
+     * used for the DynamoDB Type conversion of the TimeSlots.
+     */
+    private static final String TIME_SEPARATOR = ".";
+
     /**
      * The start time of the stream.
      */
@@ -54,5 +63,35 @@ public class TimeSlot {
         off = true;
         startTime = null;
         endTime = null;
+    }
+
+    /**
+     * Dynamo DB Type converter class for TimeSlot.
+     */
+    public static class TimeSlotConverter implements DynamoDBTypeConverter<String, TimeSlot> {
+
+        @Override
+        public final String convert(final TimeSlot timeSlot) {
+            String s = timeSlot.getStartTime() + TIME_SEPARATOR + timeSlot.getEndTime();
+            log.info(s);
+            return s;
+        }
+
+        @Override
+        public final TimeSlot unconvert(final String s) {
+            List<String> times = Arrays.asList(s.split(TIME_SEPARATOR));
+            String startTime = times.get(0);
+            String endTime = times.get(1);
+
+            TimeSlot ts = new TimeSlot();
+            try {
+                ts.setStreamDay(startTime, endTime, 0);
+            } catch (TimeConversionException e) {
+                log.error("Unable to convert {} to a TimeSlot.", s);
+                return null;
+            }
+
+            return ts;
+        }
     }
 }
