@@ -3,13 +3,10 @@ package tv.mannyocrity.discordbot.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.utils.TimeConversion;
-
-import java.time.DayOfWeek;
 
 /**
  * Model for holding the time of the day a streamer will be streaming.
@@ -19,12 +16,6 @@ import java.time.DayOfWeek;
 @EqualsAndHashCode
 @ToString
 public class TimeSlot {
-    /**
-     * Which day of the week this object represents.
-     */
-    @Setter
-    @Getter
-    private DayOfWeek day;
     /**
      * The start time of the stream.
      */

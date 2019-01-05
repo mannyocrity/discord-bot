@@ -119,7 +119,6 @@ public class ScheduleCommand implements Command {
 
             try {
                 timeSlot.setStreamDay(startTime, endTime, offset);
-                timeSlot.setDay(dayMapping.get(day));
             } catch (TimeConversionException e) {
                 // TODO: We should send a message to user that format is wrong.
                 return null;
@@ -127,7 +126,6 @@ public class ScheduleCommand implements Command {
         } else if (offDayMatcher.find()) {
             day = timeSlotMatcher.group(1);
 
-            timeSlot.setDay(dayMapping.get(day));
             timeSlot.setOffDay();
         } else {
             log.error("'{}' does not match regular expression.", value);

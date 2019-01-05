@@ -170,13 +170,6 @@
             <version>1.11.477</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>DynamoDBLocal</artifactId>
-            <version>1.11.119</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -233,7 +226,5 @@
             <version>1.3</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
 </project>
