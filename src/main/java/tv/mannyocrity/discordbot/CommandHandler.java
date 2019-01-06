@@ -24,6 +24,9 @@ public class CommandHandler {
     private static Map<String, Class> commandMap = new HashMap<>();
 
     // Statically populate the commandMap with the known commands.
+    /* TODO: New Commands:
+    Birthday - !Birthday May 3 (no Year)
+    */
     static {
         commandMap.put("ping", Ping.class);
         commandMap.put("schedule", ScheduleCommand.class);

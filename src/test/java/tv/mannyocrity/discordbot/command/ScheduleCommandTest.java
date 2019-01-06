@@ -3,6 +3,7 @@ package tv.mannyocrity.discordbot.command;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Level;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import tv.mannyocrity.discordbot.utils.CollectionsHelper;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
+@Slf4j
 public class ScheduleCommandTest {
     @Rule
     public LogVerify logVerify = new LogVerify() {{
@@ -38,6 +40,20 @@ public class ScheduleCommandTest {
         assertNull(result);
 
         logVerify.verifyLogMessages(expectedLogMsg, Level.ERROR);
+    }
+
+    @Test
+    public void parseDayCapitalPM() {
+        // SETUP
+        toTest = new ScheduleCommand();
+
+        String day = "mon=10:30pM-1:00am";
+
+        // EXECUTE
+        TimeSlot result = toTest.parseDay(day, 1);
+
+        // VERIFY
+        log.info(result.toString());
     }
 
     @Test

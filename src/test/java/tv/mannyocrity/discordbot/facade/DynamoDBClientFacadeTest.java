@@ -22,18 +22,20 @@ public class DynamoDBClientFacadeTest {
 
         TimeSlot ts = new TimeSlot();
         ts.setStreamDay("10:30pm", "12:30am", -5);
+        log.info(ts.toString());
         schedule.setMonday(ts);
         schedule.setWednesday(ts);
         schedule.setFriday(ts);
         schedule.setSaturday(ts);
 
-        ts.setOffDay();
+        ts = new TimeSlot();
+        ts.setStreamingOff();
         schedule.setSunday(ts);
         schedule.setTuesday(ts);
         schedule.setThursday(ts);
 
         // EXECUTE
-//        toTest.saveSchedule(schedule);
+        toTest.saveSchedule(schedule);
 
         // VALIDATE
     }

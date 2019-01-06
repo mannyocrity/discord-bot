@@ -5,10 +5,13 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import lombok.extern.slf4j.Slf4j;
+import tv.mannyocrity.discordbot.converter.TimeSlotConverter;
 
 /**
  * Weekly schedule for a streamer.
  */
+@Slf4j
 @DynamoDBTable(tableName = "schedule")
 public class Schedule {
     /**
@@ -28,26 +31,32 @@ public class Schedule {
      * sunday's timeslot.
      */
     private TimeSlot sunday;
+
     /**
      * monday's timeslot.
      */
     private TimeSlot monday;
+
     /**
      * tuesday's timeslot.
      */
     private TimeSlot tuesday;
+
     /**
      * wednesday's timeslot.
      */
     private TimeSlot wednesday;
+
     /**
      * thursday's timeslot.
      */
     private TimeSlot thursday;
+
     /**
      * friday's timeslot.
      */
     private TimeSlot friday;
+
     /**
      * saturday's timeslot.
      */
@@ -66,7 +75,7 @@ public class Schedule {
      *
      * @return TimeSlot for Sunday.
      */
-    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
+    @DynamoDBTypeConverted(converter = TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "sunday")
     public final TimeSlot getSunday() {
         return sunday;
@@ -86,7 +95,7 @@ public class Schedule {
      *
      * @return TimeSlot for Monday.
      */
-    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
+    @DynamoDBTypeConverted(converter = TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "monday")
     public final TimeSlot getMonday() {
         return monday;
@@ -99,6 +108,7 @@ public class Schedule {
      */
     public final void setMonday(final TimeSlot monday) {
         this.monday = monday;
+        log.info(this.monday.toString());
     }
 
     /**
@@ -106,7 +116,7 @@ public class Schedule {
      *
      * @return TimeSlot for Tuesday.
      */
-    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
+    @DynamoDBTypeConverted(converter = TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "tuesday")
     public final TimeSlot getTuesday() {
         return tuesday;
@@ -126,7 +136,7 @@ public class Schedule {
      *
      * @return TimeSlot for Wednesday.
      */
-    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
+    @DynamoDBTypeConverted(converter = TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "wednesday")
     public final TimeSlot getWednesday() {
         return wednesday;
@@ -146,7 +156,7 @@ public class Schedule {
      *
      * @return TimeSlot for Thursday.
      */
-    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
+    @DynamoDBTypeConverted(converter = TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "thursday")
     public final TimeSlot getThursday() {
         return thursday;
@@ -166,7 +176,7 @@ public class Schedule {
      *
      * @return TimeSlot for Friday.
      */
-    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
+    @DynamoDBTypeConverted(converter = TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "friday")
     public final TimeSlot getFriday() {
         return friday;
@@ -186,7 +196,7 @@ public class Schedule {
      *
      * @return TimeSlot for Saturday.
      */
-    @DynamoDBTypeConverted(converter = TimeSlot.TimeSlotConverter.class)
+    @DynamoDBTypeConverted(converter = TimeSlotConverter.class)
     @DynamoDBAttribute(attributeName = "saturday")
     public final TimeSlot getSaturday() {
         return saturday;

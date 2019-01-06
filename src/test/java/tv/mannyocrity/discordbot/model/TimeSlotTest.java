@@ -29,7 +29,7 @@ public class TimeSlotTest {
         // VERIFY
         assertEquals(expectedStartTime, toTest.getStartTime());
         assertEquals(expectedEndTime, toTest.getEndTime());
-        assertFalse(toTest.isOff());
+        assertTrue(toTest.isStreaming());
     }
 
     @Test
@@ -40,11 +40,11 @@ public class TimeSlotTest {
         toTest.setStreamDay("10:30PM", "11:00PM", offset);
 
         //EXECUTE
-        assertFalse(toTest.isOff());
-        toTest.setOffDay();
+        assertTrue(toTest.isStreaming());
+        toTest.setStreamingOff();
 
         // VERIFY
-        assertTrue(toTest.isOff());
+        assertFalse(toTest.isStreaming());
         assertNull(toTest.getStartTime());
         assertNull(toTest.getEndTime());
     }

@@ -28,7 +28,7 @@ public class ScheduleCommand implements Command {
     /**
      * Regular Expression Pattern for representing the time format.
      */
-    private static final String TIME_PATTERN = "(\\d{1,2}:\\d{2}[a|p|A|P]m)";
+    private static final String TIME_PATTERN = "(?i)(\\d{1,2}:\\d{2}[a|p]m)";
 
     /**
      * Regular Expression Pattern for representing the day format.
@@ -126,7 +126,7 @@ public class ScheduleCommand implements Command {
         } else if (offDayMatcher.find()) {
             day = timeSlotMatcher.group(1);
 
-            timeSlot.setOffDay();
+            timeSlot.setStreamingOff();
         } else {
             log.error("'{}' does not match regular expression.", value);
             return null;

@@ -84,7 +84,7 @@ public final class TimeConversion {
         try {
             log.debug("Converting {}.", time);
             // Make sure AM/PM are capitalized.
-            String timeStr = time.replace("am", "AM").replace("pm", "PM");
+            String timeStr = time.toUpperCase();
 
             // Validate that the Time is in proper format.
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(TIME_PATTERN);
