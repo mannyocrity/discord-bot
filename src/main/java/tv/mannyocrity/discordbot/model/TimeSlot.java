@@ -21,18 +21,18 @@ public class TimeSlot {
      */
     @Getter
     private String startTime;
+
     /**
      * The end time of the stream.
      */
     @Getter
     private String endTime;
+
     /**
-     * Is this an streaming day for the streamer.
+     * The time slot's activity.
      */
     @Getter
-    private boolean streaming = false;
-
-    // TODO: What about support days?!?!?!?!?
+    private Activity activity = Activity.OFF;
 
     /**
      * Converts the start and end time to UTC timezone.
@@ -46,14 +46,30 @@ public class TimeSlot {
             throws TimeConversionException {
         this.startTime = TimeConversion.convertToUTC(startTimeXYZ, offset);
         this.endTime = TimeConversion.convertToUTC(endTimeXYZ, offset);
-        this.streaming = true;
+        this.activity = Activity.STREAMING;
     }
 
     /**
-     * Sets streaming day to false and nulls out start and end times.
+     * Sets activity to support and nulls out start and end times.
      */
-    public final void setStreamingOff() {
-        streaming = false;
+    public final void setSupportDay() {
+        clearTimesSetActivity(Activity.SUPPORTING);
+    }
+
+    /**
+     * Sets activity to streaming and nulls out start and end times.
+     */
+    public final void setOffDay() {
+        clearTimesSetActivity(Activity.OFF);
+    }
+
+    /**
+     * Helper for nulling out times and setting activity.
+     *
+     * @param activityXYZ - activity to set.
+     */
+    private void clearTimesSetActivity(final Activity activityXYZ) {
+        this.activity = activityXYZ;
         startTime = null;
         endTime = null;
     }

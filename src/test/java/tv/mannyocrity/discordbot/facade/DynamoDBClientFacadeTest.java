@@ -29,9 +29,12 @@ public class DynamoDBClientFacadeTest {
         schedule.setSaturday(ts);
 
         ts = new TimeSlot();
-        ts.setStreamingOff();
+        ts.setOffDay();
         schedule.setSunday(ts);
         schedule.setTuesday(ts);
+
+        ts = new TimeSlot();
+        ts.setSupportDay();
         schedule.setThursday(ts);
 
         // EXECUTE

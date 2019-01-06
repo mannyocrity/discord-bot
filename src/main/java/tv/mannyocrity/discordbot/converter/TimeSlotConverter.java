@@ -3,6 +3,7 @@ package tv.mannyocrity.discordbot.converter;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import tv.mannyocrity.discordbot.exception.TimeConversionException;
+import tv.mannyocrity.discordbot.model.Activity;
 import tv.mannyocrity.discordbot.model.TimeSlot;
 
 import java.util.Arrays;
@@ -22,10 +23,10 @@ public class TimeSlotConverter implements DynamoDBTypeConverter<String, TimeSlot
     public final String convert(final TimeSlot timeSlot) {
         log.info(timeSlot.toString());
         String s;
-        if (timeSlot.isStreaming()) {
+        if (timeSlot.getActivity() == Activity.STREAMING) {
             s = timeSlot.getStartTime() + TIME_SEPARATOR + timeSlot.getEndTime();
         } else {
-            s = "off";
+            s = timeSlot.getActivity().toString();
         }
         log.info(s);
         return s;

@@ -29,7 +29,7 @@ public class TimeSlotTest {
         // VERIFY
         assertEquals(expectedStartTime, toTest.getStartTime());
         assertEquals(expectedEndTime, toTest.getEndTime());
-        assertTrue(toTest.isStreaming());
+        assertEquals(Activity.STREAMING, toTest.getActivity());
     }
 
     @Test
@@ -40,12 +40,29 @@ public class TimeSlotTest {
         toTest.setStreamDay("10:30PM", "11:00PM", offset);
 
         //EXECUTE
-        assertTrue(toTest.isStreaming());
-        toTest.setStreamingOff();
+        assertEquals(Activity.STREAMING, toTest.getActivity());
+        toTest.setOffDay();
 
         // VERIFY
-        assertFalse(toTest.isStreaming());
         assertNull(toTest.getStartTime());
         assertNull(toTest.getEndTime());
+        assertEquals(Activity.OFF, toTest.getActivity());
+    }
+
+    @Test
+    public void setSupportDay() throws TimeConversionException {
+        // SETUP
+        int offset = -8;
+        TimeSlot toTest = new TimeSlot();
+        toTest.setStreamDay("10:30PM", "11:00PM", offset);
+
+        //EXECUTE
+        assertEquals(Activity.STREAMING, toTest.getActivity());
+        toTest.setSupportDay();
+
+        // VERIFY
+        assertNull(toTest.getStartTime());
+        assertNull(toTest.getEndTime());
+        assertEquals(Activity.SUPPORTING, toTest.getActivity());
     }
 }

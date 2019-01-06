@@ -126,7 +126,7 @@ public class ScheduleCommand implements Command {
         } else if (offDayMatcher.find()) {
             day = timeSlotMatcher.group(1);
 
-            timeSlot.setStreamingOff();
+            timeSlot.setOffDay();
         } else {
             log.error("'{}' does not match regular expression.", value);
             return null;
