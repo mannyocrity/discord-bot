@@ -2,7 +2,6 @@ package tv.mannyocrity.discordbot.converter;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverter;
 import lombok.extern.slf4j.Slf4j;
-import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.model.Activity;
 import tv.mannyocrity.discordbot.model.TimeSlot;
 
@@ -39,12 +38,12 @@ public class TimeSlotConverter implements DynamoDBTypeConverter<String, TimeSlot
         String endTime = times.get(1);
 
         TimeSlot ts = new TimeSlot();
-        try {
-            ts.setStreamDay(startTime, endTime, 0);
-        } catch (TimeConversionException e) {
-            log.error("Unable to convert {} to a TimeSlot.", s);
-            return null;
-        }
+//        try {
+//            ts.setStreamDay(startTime, endTime, 0);
+//        } catch (TimeConversionException e) {
+//            log.error("Unable to convert {} to a TimeSlot.", s);
+//            return null;
+//        }
 
         return ts;
     }

@@ -46,6 +46,11 @@ public class ScheduleCommand implements Command {
     private static final String OFF_DAY_PATTERN = DAY_PATTERN + "off";
 
     /**
+     * Regular Expression Pattern for representing the off day format.
+     */
+    private static final String SUPPORT_DAY_PATTERN = DAY_PATTERN + "support";
+
+    /**
      * A static map of days mapping to DayOfWeek.
      */
     @Getter
@@ -67,6 +72,12 @@ public class ScheduleCommand implements Command {
         dayMapping.put("sun", DayOfWeek.SUNDAY);
     }
 
+    /**
+     * /schedule offset=-5 mon=10:30pM-1:00am tue=off wed=support fri=10:30pM-1:00am.
+     *
+     * @param event   - command to execute
+     * @param argList - the list of days and times
+     */
     @Override
     public final void runCommand(final MessageReceivedEvent event, final List<String> argList) {
 
@@ -93,13 +104,14 @@ public class ScheduleCommand implements Command {
     /**
      * Returns user input as a time slot.
      *
-     * @param value - String to parse.
+     * @param value  - String to parse.
      * @param offset - timezone offset.
      * @return - a valid TimeSlot object if formatting is correct or null if it is not.
      */
     final TimeSlot parseDay(final String value, final int offset) {
         Pattern timeSlotPattern = Pattern.compile(TIME_SLOT_PATTERN);
         Pattern offDayPattern = Pattern.compile(OFF_DAY_PATTERN);
+        Pattern supportDayPattern = Pattern.compile(SUPPORT_DAY_PATTERN);
         String day;
         String startTime;
         String endTime;
@@ -107,6 +119,7 @@ public class ScheduleCommand implements Command {
 
         Matcher timeSlotMatcher = timeSlotPattern.matcher(value);
         Matcher offDayMatcher = offDayPattern.matcher(value);
+        Matcher supportDayMatcher = supportDayPattern.matcher(value);
         if (timeSlotMatcher.find()) {
             if (dayMapping.containsKey(timeSlotMatcher.group(1))) {
                 day = timeSlotMatcher.group(1);
@@ -118,20 +131,23 @@ public class ScheduleCommand implements Command {
             }
 
             try {
-                timeSlot.setStreamDay(startTime, endTime, offset);
+                timeSlot.setStreamDay(dayMapping.get(day), startTime, endTime, offset);
             } catch (TimeConversionException e) {
                 // TODO: We should send a message to user that format is wrong.
                 return null;
             }
         } else if (offDayMatcher.find()) {
-            day = timeSlotMatcher.group(1);
+            day = offDayMatcher.group(1);
 
-            timeSlot.setOffDay();
+            timeSlot.setOffDay(dayMapping.get(day));
+        } else if (supportDayMatcher.find()) {
+            day = supportDayMatcher.group(1);
+
+            timeSlot.setSupportDay(dayMapping.get(day));
         } else {
             log.error("'{}' does not match regular expression.", value);
             return null;
         }
-
 
         return timeSlot;
     }

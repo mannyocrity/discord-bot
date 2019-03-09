@@ -7,6 +7,8 @@ import tv.mannyocrity.discordbot.exception.TimeConversionException;
 import tv.mannyocrity.discordbot.model.Schedule;
 import tv.mannyocrity.discordbot.model.TimeSlot;
 
+import java.time.DayOfWeek;
+
 @Slf4j
 public class DynamoDBClientFacadeTest {
 
@@ -21,7 +23,7 @@ public class DynamoDBClientFacadeTest {
         schedule.setDiscordId("Fooby-BW");
 
         TimeSlot ts = new TimeSlot();
-        ts.setStreamDay("10:30pm", "12:30am", -5);
+        ts.setStreamDay(DayOfWeek.MONDAY, "10:30pm", "12:30am", -5);
         log.info(ts.toString());
         schedule.setMonday(ts);
         schedule.setWednesday(ts);
@@ -29,12 +31,12 @@ public class DynamoDBClientFacadeTest {
         schedule.setSaturday(ts);
 
         ts = new TimeSlot();
-        ts.setOffDay();
+        ts.setOffDay(DayOfWeek.SATURDAY);
         schedule.setSunday(ts);
         schedule.setTuesday(ts);
 
         ts = new TimeSlot();
-        ts.setSupportDay();
+        ts.setSupportDay(DayOfWeek.SUNDAY);
         schedule.setThursday(ts);
 
         // EXECUTE

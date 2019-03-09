@@ -1,5 +1,6 @@
 package tv.mannyocrity.discordbot.command;
 
+import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,10 +10,13 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import tv.mannyocrity.discordbot.exception.TimeConversionException;
+import tv.mannyocrity.discordbot.model.Activity;
 import tv.mannyocrity.discordbot.model.TimeSlot;
 import tv.mannyocrity.discordbot.rules.LogVerify;
 import tv.mannyocrity.discordbot.utils.CollectionsHelper;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
@@ -23,7 +27,7 @@ public class ScheduleCommandTest {
         recordLoggingForType(ScheduleCommand.class);
     }};
 
-    ScheduleCommand toTest;
+    private ScheduleCommand toTest;
 
     @Test
     public void parseDayIllegalDay() {
@@ -43,17 +47,48 @@ public class ScheduleCommandTest {
     }
 
     @Test
-    public void parseDayCapitalPM() {
+    public void parseDayCapitalPM() throws TimeConversionException {
         // SETUP
         toTest = new ScheduleCommand();
-
+        TimeSlot expectedTimeSlot = new TimeSlot();
+        expectedTimeSlot.setStreamDay(DayOfWeek.MONDAY, "10:30pm", "1:00am", 1);
         String day = "mon=10:30pM-1:00am";
 
         // EXECUTE
         TimeSlot result = toTest.parseDay(day, 1);
 
         // VERIFY
-        log.info(result.toString());
+        assertEquals(expectedTimeSlot, result);
+    }
+
+    @Test
+    public void parseDayOffDay() {
+        // SETUP
+        toTest = new ScheduleCommand();
+        TimeSlot expectedTimeSlot = new TimeSlot();
+        expectedTimeSlot.setOffDay(DayOfWeek.MONDAY);
+        String day = "mon=off";
+
+        // EXECUTE
+        TimeSlot result = toTest.parseDay(day, 1);
+
+        // VERIFY
+        assertEquals(expectedTimeSlot, result);
+    }
+
+    @Test
+    public void parseDaySupportDay() {
+        // SETUP
+        toTest = new ScheduleCommand();
+        TimeSlot expectedTimeSlot = new TimeSlot();
+        expectedTimeSlot.setSupportDay(DayOfWeek.FRIDAY);
+        String day = "fri=support";
+
+        // EXECUTE
+        TimeSlot result = toTest.parseDay(day, 1);
+
+        // VERIFY
+        assertEquals(expectedTimeSlot, result);
     }
 
     @Test
